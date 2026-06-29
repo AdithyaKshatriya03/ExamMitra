@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamMitra Register</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style>
+
+*
+{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body
+{
+  height:100%;
+  overflow:hidden;
+}
+
+body
+{font-family:"Inter",sans-serif;
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+}
+
+/* ── BACKGROUND ── */
+
+.bg
+{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background:linear-gradient(145deg,#0a0c1a 0%,#0e1225 40%,#0c1020 100%);
+}
+
+.bg-grid
+{
+  position:absolute;
+  inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+.blob
+{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  animation:blobMove linear infinite;
+}
+
+.b1
+{
+  width:650px;
+  height:650px;
+  top:-180px;
+  left:-180px;
+  background:rgba(56,189,248,0.13);
+  animation-duration:40s;
+}
+
+.b2
+{
+  width:550px;
+  height:550px;
+  top:35%;
+  right:-180px;
+  background:rgba(139,92,246,0.11);
+  animation-duration:50s;
+  animation-delay:-18s;
+}
+
+.b3
+{
+  width:480px;
+  height:480px;
+  bottom:-120px;
+  left:28%;
+  background:rgba(16,185,129,0.09);
+  animation-duration:44s;
+  animation-delay:-28s;
+}
+
+@keyframes blobMove
+{
+  0%
+  {
+    transform:translate(0,0) scale(1);
+  }
+  25%
+  {
+    transform:translate(40px,30px) scale(1.05);
+  }
+  50%
+  {
+    transform:translate(-20px,50px) scale(0.97);
+  }
+  75%
+  {
+    transform:translate(30px,-20px) scale(1.03);
+  }
+  100%
+  {
+    transform:translate(0,0) scale(1);
+  }
+}
+
+.wm
+{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  user-select:none;
+  gap:0;
+}
+
+.wm-icon
+{font-size:180px;
+  opacity:0.15;
+  line-height:1;
+  display:block;
+  animation:wmf 8s ease-in-out infinite;
+  filter:drop-shadow(0 0 80px rgba(56,189,248,0.4));
+}
+
+.wm-name
+{
+  font-family:"Playfair Display",serif;
+  font-size:100px;
+  font-weight:700;
+  letter-spacing:-3px;
+  color:rgba(255,255,255,0.13);
+  animation:wmf 8s ease-in-out infinite;
+  animation-delay:.4s;
+}
+
+.wm-sub
+{
+  font-size:15px;
+  font-weight:500;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.09);
+  margin-top:12px;
+  animation:wmf 8s ease-in-out infinite;
+  animation-delay:.8s;
+}
+
+@keyframes wmf
+{
+  0%,100%
+  {
+    transform:translateY(0px);
+  }
+  50%
+  {
+    transform:translateY(-16px);
+  }
+}
+
+/* ── CARD ── */
+
+.card-wrap
+{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:440px;
+  padding:16px;
+}
+
+.rcard
+{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:22px;
+  padding:38px 36px 32px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(56,189,248,0.08);
+}
+
+/* HEADER */
+
+.r-head
+{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.r-logo
+{
+  width:54px;
+  height:54px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#38bdf8,#818cf8,#34d399);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  margin:0 auto 14px;
+  box-shadow:0 0 22px rgba(56,189,248,0.4);
+}
+
+.r-title
+{
+  font-family:"Playfair Display",serif;
+  font-size:1.45rem;
+  font-weight:700;
+  background:linear-gradient(135deg,#f1f5f9,#94a3b8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:4px;
+}
+
+.r-sub
+{
+  font-size:0.75rem;
+  color:rgba(255,255,255,0.3);
+  font-weight:400;
+  letter-spacing:.02em;
+}
+
+/* FORM */
+.fg
+{
+  position:relative;
+  margin-bottom:14px;
+}
+
+.fg input
+{
+  width:100%;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  padding:11px 42px 11px 15px;
+  color:#f1f5f9;
+  font-family:"Inter",sans-serif;
+  font-size:0.84rem;
+  outline:none;
+  transition:all .2s;
+}
+
+.fg input:focus
+{
+  border-color:rgba(56,189,248,0.5);
+  background:rgba(56,189,248,0.06);
+  box-shadow:0 0 0 3px rgba(56,189,248,0.08);
+}
+
+.fg input::placeholder
+{
+  color:rgba(255,255,255,0.22);
+}
+
+.fg input.err
+{
+  border-color:rgba(248,113,113,0.6);
+}
+
+.fg i.ic
+{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,0.28);
+  font-size:0.85rem;
+  pointer-events:none;
+}
+
+.fg .eye
+{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,0.28);
+  font-size:0.85rem;
+  cursor:pointer;
+}
+
+.err-txt
+{
+  font-size:0.7rem;
+  color:#f87171;
+  margin-top:3px;
+  display:none;
+  padding-left:4px;
+}
+
+/* Hide browser default password eye */
+
+input[type="password"]::-ms-reveal,input[type="password"]::-ms-clear{display:none;}
+
+
+.reg-btn
+{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  color:#fff;
+  font-family:"Inter",sans-serif;
+  font-size:0.88rem;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:4px;
+  box-shadow:0 6px 18px rgba(14,165,233,0.35);
+  transition:all .22s;
+  letter-spacing:.02em;
+}
+
+.reg-btn:hover
+{
+  box-shadow:0 10px 26px rgba(14,165,233,0.55);
+  transform:translateY(-1px);
+}
+
+.reg-btn:active
+{
+  transform:translateY(0);
+}
+
+.signin-link
+{
+  text-align:center;
+  margin-top:20px;
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.3);
+}
+
+.signin-link a
+{
+  color:#7dd3fc;
+  font-weight:600;
+  text-decoration:none;
+  transition:color .18s;
+}
+
+.signin-link a:hover
+{
+  color:#38bdf8;
+}
+
+</style>
+</head>
+
+<body>
+<!-- BACKGROUND -->
+ 
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="wm">
+    <div class="wm-icon">🎓</div>
+    <div class="wm-name">ExamMitra</div>
+    <div class="wm-sub">Your Competitive Exams Notification Companion</div>
+  </div>
+</div>
+
+<!-- CARD -->
+<div class="card-wrap">
+  <div class="rcard">
+    <div class="r-head">
+      <div class="r-logo">🎓</div>
+      <div class="r-title">Create Account</div>
+      <div class="r-sub">Join ExamMitra — All Your Govt Exams, One Place.</div>
+    </div>
+
+    <form onsubmit="registerUser(event)">
+
+      <div class="fg">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <i class="fa fa-user ic"></i>
+      </div>
+
+      <div class="fg">
+        <input type="email" id="email" placeholder="Email (Gmail only)"
+          pattern="[a-z0-9._%+\-]+@gmail\.com"
+          title="Must be a Gmail address"
+          required oninput="this.value=this.value.toLowerCase();">
+        <i class="fa fa-envelope ic"></i>
+      </div>
+      <div class="err-txt" id="emailError">Email already registered</div>
+
+      <div class="fg">
+        <input type="tel" id="phone" placeholder="Phone Number (10 digits)"
+          maxlength="10" pattern="[0-9]{10}"
+          required onkeypress="return event.charCode>=48&&event.charCode<=57">
+        <i class="fa fa-phone ic"></i>
+      </div>
+
+      <div class="fg">
+        <input type="password" id="password" placeholder="Password"
+          pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}"
+          title="8+ chars, 1 uppercase, 1 number, 1 special character" required>
+        <span class="eye" onclick="togglePwd('password',this)"><i class="fa fa-eye"></i></span>
+      </div>
+
+      <div class="fg">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+        <span class="eye" onclick="togglePwd('confirmPassword',this)"><i class="fa fa-eye"></i></span>
+      </div>
+
+      <button class="reg-btn" type="submit">Create Account</button>
+
+      <div class="signin-link">
+        Already have an account? <a href="login.html">Sign In</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+async function registerUser(e){
+  e.preventDefault();
+  var name=document.getElementById("name").value;
+  var email=document.getElementById("email").value;
+  var phone=document.getElementById("phone").value;
+  var password=document.getElementById("password").value;
+  var confirm=document.getElementById("confirmPassword").value;
+  if(phone.length!==10){alert("Phone number must be exactly 10 digits");return;}
+  if(password!==confirm){alert("Passwords do not match");return;}
+  try{
+    var res=await fetch("http://127.0.0.1:8000/register",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name:name,email:email,phone:Number(phone),password:password,confirm_password:confirm})
+    });
+    var data=await res.json();
+    if(res.ok){alert("Registration Successful!");window.location.href="login.html";}
+    else{
+      if(data.detail&&data.detail.toLowerCase().includes("email")){
+        document.getElementById("emailError").style.display="block";
+      } else {alert(data.detail||"Registration failed");}
+    }
+  }catch(err){alert("Server connection error. Make sure the backend is running.");}
+}
+function togglePwd(id,el){
+  var inp=document.getElementById(id);
+  if(inp.type==="password"){inp.type="text";el.innerHTML='<i class="fa fa-eye-slash"></i>';}
+  else{inp.type="password";el.innerHTML='<i class="fa fa-eye"></i>';}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamMitra - Your Competitive Exams Notification Companion</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+<style>
+
+*
+{
+  margin:0;padding:0;box-sizing:border-box;
+}
+
+html
+{
+  scroll-behavior:smooth;
+}
+body
+{
+  font-family:"Inter",sans-serif;
+  background:#0a0c1a;
+  color:#f1f5f9;
+  overflow-x:hidden;
+}
+
+/* ══ BACKGROUND ══ */
+
+.bg-fixed
+{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+.bg-base
+{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(145deg,#0a0c1a 0%,#0e1225 50%,#0c1020 100%);
+}
+
+.bg-grid
+{
+  position:absolute;
+  inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+.blob
+{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  animation:blobM linear infinite;
+}
+
+.b1
+{
+  width:700px;
+  height:700px;
+  top:-200px;
+  left:-200px;
+  background:rgba(56,189,248,0.12);
+  animation-duration:42s;
+}
+
+.b2
+{
+  width:600px;
+  height:600px;
+  top:30%;
+  right:-200px;
+  background:rgba(139,92,246,0.10);
+  animation-duration:52s;
+  animation-delay:-20s;
+}
+
+.b3
+{
+  width:500px;
+  height:500px;
+  bottom:-150px;
+  left:25%;
+  background:rgba(16,185,129,0.08);
+  animation-duration:46s;
+  animation-delay:-30s;
+}
+
+@keyframes blobM
+{
+  0%
+  {
+    transform:translate(0,0) scale(1);
+  }
+  25%
+  {
+    transform:translate(40px,30px) scale(1.05);
+  }
+  50%
+  {
+    transform:translate(-20px,50px) scale(0.97);
+  }
+  75%
+  {
+    transform:translate(30px,-20px) scale(1.03);
+  }
+  100%
+  {
+    transform:translate(0,0) scale(1);
+  }
+}
+
+/* ══ CONTENT ══ */
+
+.layer
+{
+  position:relative;
+  z-index:1;
+}
+
+/* ══ NAVBAR ══ */
+
+.navbar
+{
+  background:rgba(10,12,26,0.85);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  padding:16px 0;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  transition:all .3s;
+}
+
+.navbar-brand
+{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+
+.nav-logo-box
+{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#38bdf8,#818cf8,#34d399);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+  box-shadow:0 0 18px rgba(56,189,248,0.35);
+}
+
+.nav-brand-name
+{
+  font-family:"Playfair Display",serif;
+  font-size:1.1rem;
+  font-weight:700;
+  background:linear-gradient(90deg,#e2e8f0,#94a3b8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.nav-link-custom
+{
+  color:rgba(255,255,255,0.55)!important;
+  font-size:0.85rem;
+  font-weight:500;
+  margin-left:8px;
+  transition:color .2s;
+  padding:6px 12px!important;
+  border-radius:8px;
+}
+
+.nav-link-custom:hover
+{
+  color:#fff!important;
+  background:rgba(255,255,255,0.06);
+}
+
+.nav-cta
+{
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  color:#fff!important;
+  font-weight:700!important;
+  border-radius:10px;
+  padding:8px 20px!important;
+  box-shadow:0 4px 14px rgba(14,165,233,0.35);
+  transition:all .22s!important;
+}
+.nav-cta:hover
+{box-shadow:0 8px 22px rgba(14,165,233,0.55)!important;
+  transform:translateY(-1px);
+}
+
+.navbar-toggler
+{
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:8px;
+}
+
+.navbar-toggler-icon
+{
+  filter:invert(1);
+}
+
+/* ══ HERO ══ */
+
+.hero
+{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:100px 0 80px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-badge
+{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:rgba(56,189,248,0.1);
+  border:1px solid rgba(56,189,248,0.25);
+  border-radius:999px;
+  padding:5px 16px;
+  font-size:0.72rem;
+  font-weight:600;
+  color:#7dd3fc;
+  letter-spacing:.05em;
+  margin-bottom:22px;
+}
+
+.hero-badge span
+{width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#38bdf8;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse
+{
+  0%,100%
+  {
+    opacity:1;
+  }
+  50%
+  {
+    opacity:.3;
+  }
+}
+
+.hero h1
+{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(2.4rem,5vw,3.8rem);
+  font-weight:700;
+  line-height:1.15;
+  color:#f1f5f9;
+  margin-bottom:20px;
+}
+
+.hero h1 .hl
+{
+  background:linear-gradient(135deg,#38bdf8,#818cf8,#34d399);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-desc
+{
+  font-size:1rem;
+  color:rgba(255,255,255,0.45);
+  line-height:1.75;
+  max-width:500px;
+  margin-bottom:36px;
+  font-weight:400;
+}
+
+.hero-btns
+{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.btn-primary-hero
+{
+  padding:13px 30px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  color:#fff;
+  font-weight:700;
+  font-size:0.9rem;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(14,165,233,0.4);
+  transition:all .22s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+.btn-primary-hero:hover
+{
+  box-shadow:0 12px 32px rgba(14,165,233,0.6);
+  transform:translateY(-2px);
+  color:#fff;
+}
+
+.btn-ghost-hero
+{
+  padding:13px 26px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.7);
+  font-weight:600;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:all .22s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+.btn-ghost-hero:hover
+{
+  background:rgba(255,255,255,0.09);
+  border-color:rgba(56,189,248,0.3);
+  color:#fff;
+}
+
+.hero-stats
+{
+  display:flex;
+  gap:28px;
+  margin-top:44px;
+  flex-wrap:wrap;
+}
+
+.hstat
+{
+  text-align:left;
+}
+
+.hstat-n
+{
+  font-size:1.7rem;
+  font-weight:800;
+  background:linear-gradient(135deg,#38bdf8,#818cf8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1;
+}
+.hstat-l
+{
+  font-size:0.68rem;
+  color:rgba(255,255,255,0.3);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:500;
+  margin-top:2px;
+}
+
+.hero-visual
+{position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-card-float
+{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  padding:24px;
+  width:100%;
+  max-width:340px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.4),0 0 0 1px rgba(56,189,248,0.08);
+  animation:cardFloat 5s ease-in-out infinite;
+}
+
+@keyframes cardFloat
+{
+  0%,100%
+  {
+    transform:translateY(0);
+  }
+  50%
+  {
+    transform:translateY(-14px);
+  }
+}
+
+.hcard-top
+{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.hcard-icon
+{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.hcard-title
+{
+  font-size:0.95rem;
+  font-weight:700;
+  color:#f1f5f9;
+}
+
+.hcard-sub
+{
+  font-size:0.7rem;
+  color:rgba(255,255,255,0.3);
+}
+
+.hcard-item
+{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:0.78rem;
+}
+
+.hcard-item:last-child
+{
+  border:none;
+  padding-bottom:0;
+}
+
+.hcard-label
+{
+  color:rgba(255,255,255,0.5);
+}
+
+.hcard-val
+{
+  font-weight:600;
+  color:#f1f5f9;
+}
+
+.badge-active
+{
+  background:rgba(52,211,153,0.12);
+  color:#34d399;
+  border:1px solid rgba(52,211,153,0.25);
+  border-radius:999px;
+  padding:2px 9px;
+  font-size:0.6rem;
+  font-weight:700;
+}
+
+.badge-up
+{
+  background:rgba(129,140,248,0.12);
+  color:#c7d2fe;
+  border:1px solid rgba(129,140,248,0.25);
+  border-radius:999px;
+  padding:2px 9px;
+  font-size:0.6rem;
+  font-weight:700;
+}
+
+.hero-orb
+{
+  position:absolute;
+  width:320px;
+  height:320px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(56,189,248,0.12),transparent 70%);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  animation:orbPulse 4s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes orbPulse
+{
+  0%,100%
+  {
+    transform:translate(-50%,-50%) scale(1);
+  }
+  50%
+  {
+    transform:translate(-50%,-50%) scale(1.12);
+  }
+}
+
+/* ══ SECTION ══ */
+
+.section
+{
+  padding:90px 0;
+  position:relative;
+}
+
+.s-label{
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(56,189,248,0.08);
+  border:1px solid rgba(56,189,248,0.2);
+  border-radius:999px;
+  padding:4px 14px;
+  font-size:0.68rem;
+  font-weight:700;
+  color:#7dd3fc;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.s-title
+{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(1.8rem,3.5vw,2.5rem);
+  font-weight:700;
+  color:#f1f5f9;
+  margin-bottom:14px;
+  line-height:1.2;
+}
+
+.s-title .hl
+{
+  background:linear-gradient(135deg,#38bdf8,#818cf8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.s-desc
+{
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.38);
+  line-height:1.75;
+  max-width:480px;
+}
+
+/* ══ FEATURES ══ */
+
+.feat-grid
+{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:50px;
+}
+
+.feat-card
+{
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:18px;
+  padding:28px;
+  transition:all .28s;
+  position:relative;
+  overflow:hidden;
+}
+
+
+.feat-icon
+{
+  width:48px;
+  height:48px;
+  border-radius:13px;
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.3rem;
+  margin-bottom:18px;
+  box-shadow:var(--sh);
+}
+
+.feat-title
+{
+  font-size:0.98rem;
+  font-weight:700;
+  color:#f1f5f9;
+  margin-bottom:8px;
+}
+
+.feat-desc
+{
+  font-size:0.82rem;
+  color:rgba(255,255,255,0.38);
+  line-height:1.65;
+}
+
+/* ══ HOW IT WORKS ══ */
+
+.steps
+{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-top:50px;
+  position:relative;
+}
+
+.steps::before
+{
+  content:"";
+  position:absolute;
+  top:32px;
+  left:12%;
+  right:12%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(56,189,248,0.3),rgba(129,140,248,0.3),rgba(52,211,153,0.3),transparent);
+}
+
+.step
+{
+  text-align:center;
+  padding:28px 18px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:18px;
+  position:relative;
+  transition:all .25s;
+}
+
+
+
+.step-num
+{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  font-weight:800;
+  color:#fff;
+  margin:0 auto 18px;
+  box-shadow:0 6px 18px rgba(14,165,233,0.35);
+}
+
+.step-title
+{
+  font-size:0.9rem;
+  font-weight:700;
+  color:#f1f5f9;
+  margin-bottom:8px;
+}
+
+.step-desc
+{
+  font-size:0.78rem;
+  color:rgba(255,255,255,0.35);
+  line-height:1.6;
+}
+
+/* ══ STATS BAND ══ */
+
+.stats-band
+{
+  padding:50px 0;
+  background:rgba(255,255,255,0.03);
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.stats-row
+{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  text-align:center;
+}
+
+.stat-item .stat-n
+{
+  font-size:2.2rem;
+  font-weight:900;
+  background:linear-gradient(135deg,#38bdf8,#818cf8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1;
+}
+
+.stat-item .stat-l
+{
+  font-size:0.72rem;
+  color:rgba(255,255,255,0.28);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:600;
+  margin-top:6px;
+}
+
+/* ══ EXAM CATEGORIES ══ */
+
+.cats
+{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:50px;
+}
+
+.cat-card
+{
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+  transition:all .25s;
+}
+
+
+
+.cat-emoji
+{
+  font-size:2rem;
+  display:block;
+  margin-bottom:10px;
+}
+
+.cat-name
+{
+  font-size:0.82rem;
+  font-weight:700;
+  color:#f1f5f9;
+  margin-bottom:3px;
+}
+
+.cat-count
+{
+  font-size:0.68rem;
+  color:rgba(255,255,255,0.28);
+  font-weight:500;
+}
+
+/* ══ CTA SECTION ══ */
+
+.cta-section
+{
+  padding:90px 0;
+  background:rgba(255,255,255,0.03);
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+
+.cta-card
+{
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(56,189,248,0.15);
+  border-radius:24px;
+  padding:60px 50px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 80px rgba(56,189,248,0.07);
+}
+
+.cta-card::before
+{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg,#38bdf8,#818cf8,#34d399);
+}
+
+.cta-title
+{
+  font-family:"Playfair Display",serif;
+  font-size:2.2rem;
+  font-weight:700;
+  color:#f1f5f9;
+  margin-bottom:14px;
+}
+
+.cta-desc
+{
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.38);
+  margin-bottom:30px;
+  line-height:1.7;
+}
+
+/* ══ FOOTER ══ */
+
+.footer
+{
+  padding:60px 0 28px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+
+.footer-logo
+{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.footer-desc
+{
+  font-size:0.82rem;
+  color:rgba(255,255,255,0.3);
+  line-height:1.7;
+  max-width:280px;
+}
+
+.footer-head
+{
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  color:rgba(255,255,255,0.25);
+  font-weight:700;
+  margin-bottom:16px;
+}
+
+.footer-link
+{
+  display:block;
+  font-size:0.82rem;
+  color:rgba(255,255,255,0.38);
+  text-decoration:none;
+  margin-bottom:9px;
+  transition:color .18s;
+}
+
+.footer-link:hover
+{
+  color:#7dd3fc;
+}
+
+.footer-contact
+{
+  font-size:0.82rem;
+  color:rgba(255,255,255,0.35);
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.footer-contact i
+{
+  color:#38bdf8;
+  width:14px;
+}
+
+.footer-social
+{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+}
+
+.social-btn
+{
+  width:36px;
+  height:36px;
+  border-radius:9px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.09);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.45);
+  transition:all .2s;
+  text-decoration:none;
+}
+
+.social-btn:hover
+{
+  background:rgba(56,189,248,0.15);
+  border-color:rgba(56,189,248,0.35);
+  color:#7dd3fc;
+}
+
+.footer-hr
+{
+  border-color:rgba(255,255,255,0.06);
+  margin:30px 0 20px;
+}
+
+.copyright
+{
+  font-size:0.75rem;
+  color:rgba(255,255,255,0.2);
+  text-align:center;
+}
+
+/* ══ RESPONSIVE ══ */
+
+@media(max-width:960px)
+{
+  .feat-grid
+  {
+    grid-template-columns:1fr 1fr;
+  }
+  .steps
+  {
+    grid-template-columns:1fr 1fr;
+  }
+  .steps::before
+  {
+    display:none;
+  }
+  .cats
+  {
+    grid-template-columns:repeat(2,1fr);
+  }
+  .stats-row
+  {
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:600px)
+{
+  .feat-grid
+  {
+    grid-template-columns:1fr;
+  }
+  .steps
+  {
+    grid-template-columns:1fr;
+  }
+  .cats
+  {
+    grid-template-columns:repeat(2,1fr);
+  }
+  .hero-visual
+  {
+    margin-top:40px;
+  }
+  .cta-card
+  {
+    padding:40px 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+
+<div class="bg-fixed">
+  <div class="bg-base"></div>
+  <div class="bg-grid"></div>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<div class="layer">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <div class="nav-logo-box">🎓</div>
+      <span class="nav-brand-name">ExamMitra</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#how">How It Works</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#categories">Exams</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-badge"><span></span> 100+ Government Exams · Updated 2026</div>
+        <h1>Your Gateway to <span class="hl">Government Exams</span> in India</h1>
+        <p class="hero-desc">Track, filter and prepare for all competitive exams — UPSC, SSC, Banking, Railways, Defence, PSU and more. All in one professional platform.</p>
+        <div class="hero-btns">
+          <a href="register.html" class="btn-primary-hero"><i class="fa fa-rocket"></i> Get Started Free</a>
+          <a href="login.html" class="btn-ghost-hero"><i class="fa fa-sign-in-alt"></i> Sign In</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><div class="hstat-n">100+</div><div class="hstat-l">Exams Listed</div></div>
+          <div class="hstat"><div class="hstat-n">2026</div><div class="hstat-l">Updated</div></div>
+          <div class="hstat"><div class="hstat-n">Free</div><div class="hstat-l">Always</div></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <div class="hero-orb"></div>
+          <div style="text-align:center;animation:cardFloat 5s ease-in-out infinite;">
+            <!-- Big Logo Icon -->
+            <div style="width:140px;height:140px;border-radius:32px;background:linear-gradient(135deg,#38bdf8,#818cf8,#34d399);display:flex;align-items:center;justify-content:center;font-size:70px;margin:0 auto 24px;box-shadow:0 0 60px rgba(56,189,248,0.45),0 20px 60px rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.15);">🎓</div>
+            <!-- Brand Name -->
+            <div style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;background:linear-gradient(135deg,#f1f5f9,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px;line-height:1;margin-bottom:10px;">ExamMitra</div>
+            <!-- Tagline -->
+            <div style="font-size:0.8rem;color:rgba(255,255,255,0.35);letter-spacing:.25em;text-transform:uppercase;font-weight:500;margin-bottom:28px;">Your Competitive Exams Notification Companion</div>
+            <!-- Pill badges -->
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+              <span style="background:rgba(52,211,153,0.12);color:#34d399;border:1px solid rgba(52,211,153,0.28);border-radius:999px;padding:5px 14px;font-size:0.72rem;font-weight:700;">● 100+ Exams</span>
+              <span style="background:rgba(56,189,248,0.12);color:#7dd3fc;border:1px solid rgba(56,189,248,0.28);border-radius:999px;padding:5px 14px;font-size:0.72rem;font-weight:700;">Smart Filters</span>
+              <span style="background:rgba(129,140,248,0.12);color:#c7d2fe;border:1px solid rgba(129,140,248,0.28);border-radius:999px;padding:5px 14px;font-size:0.72rem;font-weight:700;">Free Forever</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-n">100+</div><div class="stat-l">Total Exams</div></div>
+      <div class="stat-item"><div class="stat-n">45+</div><div class="stat-l">Currently Active</div></div>
+      <div class="stat-item"><div class="stat-n">10+</div><div class="stat-l">Categories</div></div>
+      <div class="stat-item"><div class="stat-n">100%</div><div class="stat-l">Free to Use</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="text-center">
+      <div class="s-label"><i class="fa fa-star"></i> Platform Features</div>
+      <h2 class="s-title">Everything you need to <span class="hl">crack govt exams</span></h2>
+      <p class="s-desc mx-auto">Smart tools designed for serious aspirants to discover, track and prepare for government competitive exams.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" style="--c:linear-gradient(90deg,#38bdf8,#6366f1);">
+        <div class="feat-icon" style="--bg:rgba(56,189,248,0.12);--sh:0 4px 14px rgba(56,189,248,0.2);">🔎</div>
+        <div class="feat-title">Smart Exam Search</div>
+        <div class="feat-desc">Search across 100+ government exams by name, conducting body, category or keyword in real-time.</div>
+      </div>
+      <div class="feat-card" style="--c:linear-gradient(90deg,#818cf8,#ec4899);">
+        <div class="feat-icon" style="--bg:rgba(129,140,248,0.12);--sh:0 4px 14px rgba(129,140,248,0.2);">⚙</div>
+        <div class="feat-title">Advanced Filters</div>
+        <div class="feat-desc">Filter by age, qualification, category, conducting body, status and exam mode — all at once.</div>
+      </div>
+      <div class="feat-card" style="--c:linear-gradient(90deg,#34d399,#38bdf8);">
+        <div class="feat-icon" style="--bg:rgba(52,211,153,0.12);--sh:0 4px 14px rgba(52,211,153,0.2);">🔔</div>
+        <div class="feat-title">Live Exam Status</div>
+        <div class="feat-desc">See which exams are currently active, upcoming, and their latest dates — always up to date.</div>
+      </div>
+      <div class="feat-card" style="--c:linear-gradient(90deg,#fbbf24,#fb923c);">
+        <div class="feat-icon" style="--bg:rgba(251,191,36,0.12);--sh:0 4px 14px rgba(251,191,36,0.2);">🔖</div>
+        <div class="feat-title">Save & Bookmark</div>
+        <div class="feat-desc">Bookmark your target exams and access them instantly from your personal saved list.</div>
+      </div>
+      <div class="feat-card" style="--c:linear-gradient(90deg,#ec4899,#a855f7);">
+        <div class="feat-icon" style="--bg:rgba(236,72,153,0.12);--sh:0 4px 14px rgba(236,72,153,0.2);">👤</div>
+        <div class="feat-title">Profile Matching</div>
+        <div class="feat-desc">Fill your profile once — filters auto-populate based on your age, qualification and category.</div>
+      </div>
+      <div class="feat-card" style="--c:linear-gradient(90deg,#38bdf8,#34d399);">
+        <div class="feat-icon" style="--bg:rgba(56,189,248,0.12);--sh:0 4px 14px rgba(56,189,248,0.2);">📋</div>
+        <div class="feat-title">Full Exam Details</div>
+        <div class="feat-desc">View complete exam info — stages, eligibility, dates, posts, official site link — all in one click.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);">
+  <div class="container">
+    <div class="text-center">
+      <div class="s-label"><i class="fa fa-route"></i> How It Works</div>
+      <h2 class="s-title">Start in <span class="hl">4 simple steps</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-title">Create Account</div><div class="step-desc">Register and Login for free with your Gmail. No fees, no hidden charges.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-title">Set Your Profile</div><div class="step-desc">Enter your age, qualification and category once for eligibility.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-title">Explore Exams</div><div class="step-desc">Browse 100+ exams filtered to your profile. Use quick category pills.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-title">Track & Prepare</div><div class="step-desc">Save target exams, view full details and visit official sites directly.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM CATEGORIES -->
+<section class="section" id="categories">
+  <div class="container">
+    <div class="text-center">
+      <div class="s-label"><i class="fa fa-th-large"></i> Exam Categories</div>
+      <h2 class="s-title">All major <span class="hl">exam categories</span> covered</h2>
+    </div>
+    <div class="cats">
+      <div class="cat-card"><span class="cat-emoji">🏛️</span><div class="cat-name">Central Govt</div><div class="cat-count">UPSC, SSC & more</div></div>
+      <div class="cat-card"><span class="cat-emoji">🏦</span><div class="cat-name">Banking</div><div class="cat-count">IBPS, SBI, RBI</div></div>
+      <div class="cat-card"><span class="cat-emoji">🚂</span><div class="cat-name">Railways</div><div class="cat-count">RRB NTPC, Group D</div></div>
+      <div class="cat-card"><span class="cat-emoji">🪖</span><div class="cat-name">Defence</div><div class="cat-count">NDA, CDS, AFCAT</div></div>
+      <div class="cat-card"><span class="cat-emoji">🏢</span><div class="cat-name">PSU</div><div class="cat-count">BHEL, ONGC, NTPC</div></div>
+      <div class="cat-card"><span class="cat-emoji">🗺️</span><div class="cat-name">State Govt</div><div class="cat-count">KPSC, MPSC & more</div></div>
+      <div class="cat-card"><span class="cat-emoji">🛡️</span><div class="cat-name">Police</div><div class="cat-count">SI, Constable posts</div></div>
+      <div class="cat-card"><span class="cat-emoji">🏥</span><div class="cat-name">Insurance</div><div class="cat-count">LIC, GIC, NIACL</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="about">
+  <div class="container">
+    <div class="cta-card">
+      <div class="s-label mx-auto" style="margin-bottom:18px;"><i class="fa fa-bolt"></i> Free · No Ads · Always Updated</div>
+      <h2 class="cta-title">Ready to find your perfect exam?</h2>
+      <p class="cta-desc">Join ExamMitra today. Browse 100+ government exams, filter by your profile,<br>save your targets and stay ahead of every deadline.</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="register.html" class="btn-primary-hero"><i class="fa fa-user-plus"></i> Create Free Account</a>
+        <a href="login.html" class="btn-ghost-hero"><i class="fa fa-sign-in-alt"></i> Sign In</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-logo">
+          <div class="nav-logo-box" style="width:32px;height:32px;font-size:14px;">🎓</div>
+          <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;background:linear-gradient(90deg,#e2e8f0,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">ExamMitra</span>
+        </div>
+        <p class="footer-desc">Your all-in-one platform for discovering, tracking and preparing for government competitive exams across India.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-6">
+        <div class="footer-head">Platform</div>
+        <a href="#features" class="footer-link">Features</a>
+        <a href="#how" class="footer-link">How It Works</a>
+        <a href="#categories" class="footer-link">Exam Categories</a>
+        <a href="login.html" class="footer-link">Sign In</a>
+        <a href="register.html" class="footer-link">Register</a>
+      </div>
+      <div class="col-lg-2 col-6">
+        <div class="footer-head">Exams</div>
+        <a href="login.html" class="footer-link">UPSC</a>
+        <a href="login.html" class="footer-link">SSC</a>
+        <a href="login.html" class="footer-link">Banking</a>
+        <a href="login.html" class="footer-link">Railways</a>
+        <a href="login.html" class="footer-link">Defence</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-head">Contact</div>
+        <div class="footer-contact"><i class="fa fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8ce9f4ede1e1e5f8feedccebe1ede5e0a2efe3e1">exammitra@gmail.com</a></div>
+        <div class="footer-contact"><i class="fa fa-phone"></i> +91 9353839659</div>
+        <div class="footer-contact"><i></i> +91 9019972232</div>
+        <div class="footer-contact"><i></i> +91 9481517242</div>
+        <div class="footer-contact"><i class="fa fa-map-marker-alt"></i> India</div>
+      </div>
+    </div>
+    <hr class="footer-hr">
+    <strong><p class="copyright">© 2026 ExamMitra · All Rights Reserved · Built with ❤️ for aspirants across India</p>
+  </div>
+</footer>
+
+</d>
+<script>
+document.addEventListener("keydown", function(e)
+{
+  if(e.ctrlKey && e.shiftKey && e.key === "A")
+  {
+    window.location.href = "admin_login.html";
+  }
+});
+</script>
+
+<!-- SCROLL TO TOP -->
+<style>
+  #scrollTopBtn {
+    position: fixed;
+    bottom: 32px;
+    right: 28px;
+    z-index: 9999;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #38bdf8, #6366f1);
+    color: #fff;
+    font-size: 1.05rem;
+    cursor: pointer;
+    box-shadow: 0 6px 22px rgba(56, 189, 248, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px) scale(0.85);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .25s ease;
+  }
+  #scrollTopBtn.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  #scrollTopBtn:hover {
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.65);
+    transform: translateY(-3px) scale(1.08);
+  }
+  #scrollTopBtn:active {
+    transform: scale(0.94);
+  }
+  #scrollTopTip {
+    position: fixed;
+    bottom: 90px;
+    right: 22px;
+    z-index: 9998;
+    background: rgba(9, 11, 23, 0.96);
+    border: 1px solid rgba(56, 189, 248, 0.28);
+    border-radius: 10px;
+    padding: 7px 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.71rem;
+    color: #7dd3fc;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .22s ease, transform .22s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+  #scrollTopTip.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<button id="scrollTopBtn" title="Back to top" aria-label="Back to top">
+  <i class="fa fa-arrow-up"></i>
+</button>
+<div id="scrollTopTip">Hey, you've been scrolling for a while! ☝️</div>
+
+<script>
+(function () {
+  var btn = document.getElementById("scrollTopBtn");
+  var tip = document.getElementById("scrollTopTip");
+  var tipTimer = null;
+
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 320) {
+      btn.classList.add("visible");
+    } else {
+      btn.classList.remove("visible");
+      tip.classList.remove("visible");
+    }
+  });
+
+  btn.addEventListener("mouseenter", function () {
+    clearTimeout(tipTimer);
+    tip.classList.add("visible");
+  });
+
+  btn.addEventListener("mouseleave", function () {
+    tipTimer = setTimeout(function () {
+      tip.classList.remove("visible");
+    }, 300);
+  });
+
+  btn.addEventListener("click", function () {
+    tip.classList.remove("visible");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
+</script>

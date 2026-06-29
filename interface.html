@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ExamMitra – Interface</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: #f1f5f9;
+      background: #0c0e1a;
+    }
+
+    /* ═══════════════════════════════════════
+   PROFESSIONAL BACKGROUND SYSTEM
+═══════════════════════════════════════ */
+    .bg-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: linear-gradient(145deg, #0a0c1a 0%, #0e1225 40%, #0c1020 100%);
+    }
+
+    /* Subtle grid pattern */
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Radial noise overlay */
+    .bg-noise {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 20% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 80% at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 60%);
+    }
+
+    /* Large blurred blobs — slow, professional */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: blobMove linear infinite;
+    }
+
+    .blob1 {
+      width: 700px;
+      height: 700px;
+      top: -150px;
+      left: -200px;
+      background: rgba(56, 189, 248, 0.12);
+      animation-duration: 40s;
+      animation-delay: 0s;
+    }
+
+    .blob2 {
+      width: 600px;
+      height: 600px;
+      top: 40%;
+      right: -200px;
+      background: rgba(139, 92, 246, 0.1);
+      animation-duration: 50s;
+      animation-delay: -15s;
+    }
+
+    .blob3 {
+      width: 500px;
+      height: 500px;
+      bottom: -100px;
+      left: 30%;
+      background: rgba(16, 185, 129, 0.08);
+      animation-duration: 45s;
+      animation-delay: -25s;
+    }
+
+    @keyframes blobMove {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(40px, 30px) scale(1.05);
+      }
+
+      50% {
+        transform: translate(-20px, 50px) scale(0.97);
+      }
+
+      75% {
+        transform: translate(30px, -20px) scale(1.03);
+      }
+
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+    }
+
+    /* BRANDED WATERMARK — prominent center */
+    .brand-wm {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      gap: 0;
+    }
+
+    .bwm-icon {
+      font-size: clamp(120px, 18vw, 220px);
+      line-height: 1;
+      display: block;
+      animation: wmFloat 8s ease-in-out infinite;
+      filter: drop-shadow(0 0 80px rgba(56, 189, 248, 0.15));
+      opacity: 0.09;
+    }
+
+    .bwm-name {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(60px, 10vw, 130px);
+      font-weight: 700;
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-top: -10px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(56, 189, 248, 0.18), rgba(139, 92, 246, 0.14));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: wmFloat 8s ease-in-out infinite;
+      animation-delay: .5s;
+    }
+
+    .bwm-sub {
+      font-size: clamp(12px, 1.8vw, 20px);
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.06);
+      margin-top: 12px;
+      animation: wmFloat 8s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    @keyframes wmFloat {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+
+
+    /* ═══════════════════════════════════════
+   UI LAYER
+═══════════════════════════════════════ */
+    .ui {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* TOPBAR */
+    .tb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      z-index: 200;
+      background: rgba(10, 12, 26, 0.82);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      padding: 0 22px 0 64px;
+      gap: 14px;
+    }
+
+    .tb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .tb-logo-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #34d399);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.35);
+      transition: box-shadow .3s;
+    }
+
+    .tb-logo-wrap:hover {
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+    }
+
+    .tb-brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .tb-title {
+      font-family: "Playfair Display", serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #e2e8f0, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tb-sub {
+      font-size: 0.54rem;
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .tb-div {
+      width: 1px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .tb-search {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .tb-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.28);
+      font-size: 0.82rem;
+    }
+
+    .tb-search input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 9px 12px 9px 36px;
+      color: #f1f5f9;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      transition: all .22s;
+    }
+
+    .tb-search input:focus {
+      border-color: rgba(56, 189, 248, 0.5);
+      background: rgba(56, 189, 248, 0.06);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
+    }
+
+    .tb-search input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .tb-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-back {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 10px;
+      padding: 7px 14px;
+      color: #7dd3fc;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 5px;
+      font-family: "Inter", sans-serif;
+      transition: all .2s;
+    }
+
+    .btn-back.show {
+      display: flex;
+    }
+
+    .btn-back:hover {
+      background: rgba(56, 189, 248, 0.2);
+      color: #fff;
+    }
+
+    .btn-filter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all .2s;
+    }
+
+    .btn-filter:hover,
+    .btn-filter.on {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+    }
+
+    .tb-av {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      border: 2px solid rgba(56, 189, 248, 0.3);
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+      transition: all .2s;
+    }
+
+    .tb-av:hover {
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.5);
+      transform: scale(1.06);
+    }
+
+    /* DOTS BTN */
+    .dots-btn {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 300;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+    }
+
+    .dots-btn:hover,
+    .dots-btn.on {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #fff;
+    }
+
+    /* NAV DROPDOWN */
+    .ndrop {
+      position: fixed;
+      top: 62px;
+      left: 12px;
+      width: 218px;
+      background: rgba(9, 11, 22, 0.97);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(56, 189, 248, 0.08);
+      z-index: 400;
+      padding: 6px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px) scale(0.97);
+      transition: all .18s cubic-bezier(.34, 1.4, .64, 1);
+    }
+
+    .ndrop.on {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .nd-lbl {
+      padding: 9px 10px 4px;
+      font-size: 0.54rem;
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      color: rgba(255, 255, 255, 0.18);
+      font-weight: 600;
+    }
+
+    .nd-it {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.45);
+      transition: all .14s;
+    }
+
+    .nd-it i {
+      font-size: 0.8rem;
+      width: 15px;
+      text-align: center;
+      flex-shrink: 0;
+      opacity: .5;
+    }
+
+    .nd-it:hover {
+      background: rgba(56, 189, 248, 0.1);
+      color: #e2e8f0;
+    }
+
+    .nd-it:hover i {
+      opacity: 1;
+      color: #7dd3fc;
+    }
+
+    .nd-it.on {
+      background: rgba(56, 189, 248, 0.12);
+      color: #f1f5f9;
+    }
+
+    .nd-it.on i {
+      color: #38bdf8;
+      opacity: 1;
+    }
+
+    .nd-sep {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      margin: 4px 0;
+    }
+
+    .nd-it.red {
+      color: rgba(252, 165, 165, 0.4);
+    }
+
+    .nd-it.red i {
+      color: rgba(252, 165, 165, 0.4);
+    }
+
+    .nd-it.red:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+    }
+
+    /* MAIN */
+    .main {
+      padding-top: 64px;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      padding: 26px 26px 60px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.on {
+      display: block;
+    }
+
+    /* PAGE HEADER */
+    .phdr {
+      margin-bottom: 24px;
+    }
+
+    .phdr h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .phdr p {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 400;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .sc {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      transition: all .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sc:hover {
+      border-color: rgba(56, 189, 248, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .si {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .si-g {
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+    }
+
+    .si-b {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+    }
+
+    .si-p {
+      background: rgba(129, 140, 248, 0.12);
+      color: #818cf8;
+    }
+
+    .si-o {
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+    }
+
+    .sn {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .sl {
+      font-size: 0.6rem;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 3px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    /* QUICK FILTERS */
+    .qrow {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+    }
+
+    .qf {
+      padding: 5px 15px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.38);
+      transition: all .18s;
+      user-select: none;
+      font-family: "Inter", sans-serif;
+      white-space: nowrap;
+      letter-spacing: .02em;
+    }
+
+    .qf:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #bae6fd;
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .qf.on {
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #e0f2fe;
+      background: rgba(56, 189, 248, 0.12);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.1);
+    }
+
+    .qf.g-on {
+      border-color: rgba(52, 211, 153, 0.5);
+      color: #6ee7b7;
+      background: rgba(52, 211, 153, 0.1);
+    }
+
+    .qf.p-on {
+      border-color: rgba(248, 113, 113, 0.5);
+      color: #fca5a5;
+      background: rgba(248, 113, 113, 0.1);
+    }
+
+    /* RESULTS BAR */
+    .rbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .rbar h2 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .rcnt {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .rcnt span {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    /* GRID — 3 COLUMNS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    /* CARD */
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all .28s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #34d399);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(56, 189, 248, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(56, 189, 248, 0.15);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card.sv {
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+
+    .card.sv::before {
+      background: linear-gradient(90deg, #34d399, #10b981);
+      opacity: 1;
+    }
+
+    .ctop {
+      padding: 18px 18px 12px;
+    }
+
+    .cbadges {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 11px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    .ba {
+      background: rgba(52, 211, 153, 0.12);
+      color: #6ee7b7;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .bu {
+      background: rgba(129, 140, 248, 0.12);
+      color: #c7d2fe;
+      border: 1px solid rgba(129, 140, 248, 0.25);
+    }
+
+    .bce {
+      background: rgba(56, 189, 248, 0.12);
+      color: #bae6fd;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .bst {
+      background: rgba(251, 191, 36, 0.12);
+      color: #fde68a;
+      border: 1px solid rgba(251, 191, 36, 0.25);
+    }
+
+    .bde {
+      background: rgba(248, 113, 113, 0.12);
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.25);
+    }
+
+    .bba {
+      background: rgba(56, 189, 248, 0.12);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .bps {
+      background: rgba(167, 139, 250, 0.12);
+      color: #ddd6fe;
+      border: 1px solid rgba(167, 139, 250, 0.25);
+    }
+
+    .bra {
+      background: rgba(52, 211, 153, 0.12);
+      color: #a7f3d0;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .ctitle {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+    }
+
+    .cfull {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .corg {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      border-radius: 7px;
+      padding: 3px 9px;
+    }
+
+    .cfoot {
+      padding: 12px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      background: rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-vd {
+      flex: 1;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+      transition: all .22s;
+    }
+
+    .btn-vd:hover {
+      box-shadow: 0 8px 22px rgba(14, 165, 233, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-sv {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all .2s;
+    }
+
+    .btn-sv:hover {
+      border-color: rgba(52, 211, 153, 0.5);
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.07);
+    }
+
+    .card.sv .btn-sv {
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(52, 211, 153, 0.08);
+    }
+
+    .svtag {
+      position: absolute;
+      top: 11px;
+      right: 11px;
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.28);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .card.sv .svtag {
+      display: flex;
+    }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .empty i {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 12px;
+      opacity: .12;
+    }
+
+    .empty p {
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 0.84rem;
+      line-height: 1.7;
+    }
+
+    /* DETAIL MODAL */
+    .dov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .dov.on {
+      display: flex;
+    }
+
+    .dbox {
+      background: rgba(9, 11, 23, 0.98);
+      backdrop-filter: blur(40px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(56, 189, 248, 0.1);
+    }
+
+    .dhdr {
+      padding: 22px 22px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      position: sticky;
+      top: 0;
+      background: rgba(9, 11, 23, 0.99);
+      backdrop-filter: blur(20px);
+      z-index: 1;
+      border-radius: 22px 22px 0 0;
+    }
+
+    .dbadges {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 11px;
+      flex-wrap: wrap;
+    }
+
+    .dtitle {
+      font-family: "Playfair Display", serif;
+      font-size: 1.45rem;
+      color: #f1f5f9;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+
+    .dfull {
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .dorg {
+      font-size: 0.73rem;
+      color: #7dd3fc;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .dbtn-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      padding: 6px 11px;
+      color: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      font-size: 0.76rem;
+      font-family: "Inter", sans-serif;
+      transition: all .18s;
+    }
+
+    .dbtn-close:hover {
+      border-color: rgba(248, 113, 113, 0.5);
+      color: #fca5a5;
+    }
+
+    .dbody {
+      padding: 20px 22px;
+    }
+
+    .dgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .di {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 14px;
+      transition: border-color .2s;
+    }
+
+    .di:hover {
+      border-color: rgba(56, 189, 248, 0.18);
+    }
+
+    .di label {
+      display: block;
+      font-size: 0.57rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: rgba(255, 255, 255, 0.22);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .di p {
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .dsec {
+      margin-bottom: 16px;
+    }
+
+    .dsec h3 {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: rgba(255, 255, 255, 0.22);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .ddr {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .ddr:last-child {
+      margin: 0;
+    }
+
+    .ddr i {
+      color: #38bdf8;
+      font-size: 0.78rem;
+      width: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ddr strong {
+      color: rgba(255, 255, 255, 0.45);
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .ddr span {
+      color: #e2e8f0;
+    }
+
+    .dact {
+      display: flex;
+      gap: 8px;
+      padding: 18px 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-site {
+      flex: 1;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.35);
+      transition: all .22s;
+    }
+
+    .btn-site:hover {
+      box-shadow: 0 10px 28px rgba(14, 165, 233, 0.55);
+    }
+
+    .btn-dsv {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all .2s;
+    }
+
+    .btn-dsv:hover {
+      border-color: rgba(52, 211, 153, 0.5);
+      color: #34d399;
+    }
+
+    .btn-dsv.sv {
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(52, 211, 153, 0.07);
+    }
+
+    /* FILTER DRAWER */
+    .fdov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      z-index: 300;
+    }
+
+    .fdov.on {
+      display: block;
+    }
+
+    .fd {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 330px;
+      height: 100vh;
+      background: rgba(8, 10, 21, 0.98);
+      backdrop-filter: blur(30px);
+      border-left: 1px solid rgba(255, 255, 255, 0.07);
+      z-index: 350;
+      display: flex;
+      flex-direction: column;
+      transition: right .24s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .fd.on {
+      right: 0;
+    }
+
+    .fdh {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .fdh h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+      color: #f1f5f9;
+      font-weight: 700;
+    }
+
+    .pfn {
+      margin-top: 4px;
+      font-size: 0.63rem;
+      color: #38bdf8;
+      display: none;
+    }
+
+    .fdb {
+      padding: 16px 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .fg {
+      margin-bottom: 14px;
+    }
+
+    .fg label {
+      display: block;
+      font-size: 0.59rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: rgba(255, 255, 255, 0.25);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .fg input,
+    .fg select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 9px 11px;
+      color: #f1f5f9;
+      font-family: "Inter", sans-serif;
+      font-size: 0.8rem;
+      outline: none;
+      appearance: none;
+      transition: all .2s;
+    }
+
+    .fg input:focus,
+    .fg select:focus {
+      border-color: rgba(56, 189, 248, 0.5);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .fg input::placeholder {
+      color: rgba(255, 255, 255, 0.18);
+    }
+
+    .fg option {
+      background: #08090f;
+    }
+
+    .fg input.pf,
+    .fg select.pf {
+      border-color: rgba(56, 189, 248, 0.45);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .fdf {
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      gap: 9px;
+    }
+
+    .btn-apply {
+      flex: 1;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      border: none;
+      border-radius: 11px;
+      padding: 10px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+      transition: all .2s;
+    }
+
+    .btn-apply:hover {
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+    }
+
+    .btn-rall {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 11px;
+      padding: 10px 14px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-rall:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+    }
+
+    .btn-xd {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-family: "Inter", sans-serif;
+      transition: all .2s;
+    }
+
+    .btn-xd:hover {
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #fca5a5;
+    }
+
+    /* PROFILE */
+    .playout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+      max-width: 860px;
+    }
+
+    .pcard {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      padding: 26px 20px;
+      text-align: center;
+      align-self: start;
+    }
+
+    .pavwrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+
+    .pav {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #34d399);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      border: 3px solid rgba(56, 189, 248, 0.35);
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+    }
+
+    .pav img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pcam {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      border: 2px solid rgba(8, 10, 21, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.62rem;
+    }
+
+    .pname {
+      font-family: "Playfair Display", serif;
+      font-size: 1.1rem;
+      color: #f1f5f9;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+
+    .pem {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 16px;
+    }
+
+    .pstats {
+      display: flex;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 0 -20px;
+    }
+
+    .pst {
+      flex: 1;
+      padding: 12px 4px;
+      text-align: center;
+    }
+
+    .pst+.pst {
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .psn {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .psl {
+      font-size: 0.57rem;
+      color: rgba(255, 255, 255, 0.25);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 600;
+    }
+
+    .pjoin {
+      margin-top: 12px;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.22);
+    }
+
+    .pform {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .pform h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+      color: #f1f5f9;
+      margin-bottom: 18px;
+      font-weight: 700;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .fgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .fg2 {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .fg2.full {
+      grid-column: 1/-1;
+    }
+
+    .fg2 label {
+      font-size: 0.57rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 700;
+    }
+
+    .fg2 input,
+    .fg2 select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 9px 11px;
+      color: #f1f5f9;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      appearance: none;
+      transition: all .2s;
+    }
+
+    .fg2 input:focus,
+    .fg2 select:focus {
+      border-color: rgba(56, 189, 248, 0.5);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .fg2 input::placeholder {
+      color: rgba(255, 255, 255, 0.18);
+    }
+
+    .fg2 option {
+      background: #0c0e1a;
+    }
+
+    .fg2 input[readonly] {
+      background: rgba(255, 255, 255, 0.02);
+      cursor: not-allowed;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .fact {
+      display: flex;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .btn-sp {
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: #fff;
+      border: none;
+      border-radius: 11px;
+      padding: 10px 20px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+      transition: all .2s;
+    }
+
+    .btn-sp:hover {
+      box-shadow: 0 7px 20px rgba(14, 165, 233, 0.5);
+    }
+
+    .btn-rp {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 11px;
+      padding: 10px 16px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-rp:hover {
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #fca5a5;
+    }
+
+    .smsg {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      display: none;
+      font-weight: 500;
+    }
+
+    /* PHOTO MODAL */
+    .pmov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 800;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pmov.on {
+      display: flex;
+    }
+
+    .pmbox {
+      background: rgba(8, 10, 21, 0.99);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
+      padding: 24px;
+      width: 310px;
+      max-width: 95vw;
+    }
+
+    .pmbox h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1rem;
+      color: #f1f5f9;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .popts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .popt {
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 11px;
+      padding: 17px 8px;
+      text-align: center;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.75rem;
+      transition: all .2s;
+      font-weight: 500;
+    }
+
+    .popt:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.07);
+    }
+
+    .popt i {
+      font-size: 1.25rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .pmcancel {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 9px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .pmcancel:hover {
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #fca5a5;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:960px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .playout {
+        grid-template-columns: 1fr;
+      }
+
+      .fgrid {
+        grid-template-columns: 1fr;
+      }
+
+      .dgrid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width:560px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tb {
+        padding-left: 58px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg-wrap">
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="brand-wm">
+      <span class="bwm-icon">🎓</span>
+      <div class="bwm-name">ExamMitra</div>
+      <div class="bwm-sub">Your Competitive Exams Notification Companion</div>
+    </div>
+
+  </div>
+
+  <!-- DOTS BTN -->
+  <button class="dots-btn" id="dotsBtn"><i class="bi bi-three-dots-vertical"></i></button>
+
+  <!-- NAV DROPDOWN -->
+  <div class="ndrop" id="ndrop">
+    <div class="nd-lbl"><strong>MENU</strong></div>
+    <div class="nd-it on" id="niExams"><i class="bi bi-grid-1x2-fill"></i> All Exams</div>
+    <div class="nd-it" id="niActive"><i class="bi bi-check-circle-fill"></i> Active Exams</div>
+    <div class="nd-it" id="niUpcoming"><i class="bi bi-calendar-event-fill"></i> Upcoming Exams</div>
+    <div class="nd-it" id="niSaved"><i class="bi bi-bookmark-heart-fill"></i> Saved Exams</div>
+    <div class="nd-it" id="niProfile"><i class="bi bi-person-circle"></i> Profile</div>
+    <div class="nd-sep"></div>
+    <div class="nd-it" id="niSupport"><i class="bi bi-headset"></i> Customer Support</div>
+    <div class="nd-it red" id="niLogout"><i class="bi bi-box-arrow-right"></i> Logout</div>
+  </div>
+
+  <!-- UI LAYER -->
+  <div class="ui">
+    <header class="tb">
+      <div class="tb-brand">
+        <div class="tb-logo-wrap">🎓</div>
+        <div class="tb-brand-text">
+          <span class="tb-title">ExamMitra</span>
+
+        </div>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-search">
+        <i class="bi bi-search"></i>
+        <input type="text" id="srch" placeholder="Search exams, bodies, categories…">
+      </div>
+      <div class="tb-right">
+        <button class="btn-back" id="btnBack"><i class="bi bi-arrow-left"></i> Back</button>
+        <button class="btn-filter" id="btnFilter"><i class="bi bi-sliders2"></i> Filters</button>
+        <div class="tb-av" id="tbAv">U</div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="wrap">
+        <div class="view on" id="vExams">
+          <div class="phdr">
+            <h1>Government exams Notification Portal</h1>
+            <p>86+ competitive exams Notification — click <b style="color:#7dd3fc;font-weight:600;">View Details</b> for
+              complete information</p>
+          </div>
+          <div class="stats">
+            <div class="sc">
+              <div class="si si-g"><i class="bi bi-check-circle-fill"></i></div>
+              <div>
+                <div class="sn" id="stAc">—</div>
+                <div class="sl">Active Now</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si si-b"><i class="bi bi-calendar-event-fill"></i></div>
+              <div>
+                <div class="sn" id="stUp">—</div>
+                <div class="sl">Upcoming</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si si-p"><i class="bi bi-bookmark-heart-fill"></i></div>
+              <div>
+                <div class="sn" id="stSv">0</div>
+                <div class="sl">Saved by You</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si si-o"><i class="bi bi-collection-fill"></i></div>
+              <div>
+                <div class="sn" id="stTotal">—</div>
+                <div class="sl">Total Exams</div>
+              </div>
+            </div>
+          </div>
+          <div class="qrow">
+            <div class="qf on" data-q="all">All</div>
+            <div class="qf" data-q="Currently Active">● Active</div>
+            <div class="qf" data-q="Upcoming">Upcoming</div>
+
+          </div>
+          <div class="rbar">
+            <h2 id="rlbl">All Exams</h2>
+            <div class="rcnt"><span id="rcnt">0</span> results</div>
+          </div>
+          <div class="grid" id="gExams"></div>
+        </div>
+
+        <div class="view" id="vSaved">
+          <div class="phdr">
+            <h1>Saved Exams</h1>
+            <p>Your shortlisted opportunities</p>
+          </div>
+          <div class="rbar">
+            <h2>Bookmarked</h2>
+            <div class="rcnt"><span id="rcntSv">0</span> saved</div>
+          </div>
+          <div class="grid" id="gSaved"></div>
+        </div>
+
+        <div class="view" id="vProfile">
+          <div class="phdr">
+            <h1>Your Profile</h1>
+            <p>Manage your account and preferences</p>
+          </div>
+          <div class="playout">
+            <div class="pcard">
+              <div class="pavwrap">
+                <div class="pav" id="pAv"><span>U</span></div>
+                <div class="pcam" id="pCam"><i class="bi bi-camera-fill"></i></div>
+              </div>
+              <div class="pname" id="pNm">User</div>
+              <div class="pem" id="pEm">—</div>
+              <div class="pstats">
+                <div class="pst">
+                  <div class="psn" id="psSv">0</div>
+                  <div class="psl">Saved</div>
+                </div>
+                <div class="pst">
+                  <div class="psn" id="psAc">—</div>
+                  <div class="psl">Active</div>
+                </div>
+                <div class="pst">
+                  <div class="psn" id="psTotal">—</div>
+                  <div class="psl">Total</div>
+                </div>
+              </div>
+              <div class="pjoin">Member since 2026</div>
+            </div>
+            <div class="pform">
+              <h2>Edit Profile</h2>
+              <div class="fgrid">
+                <div class="fg2"><label>Full Name</label><input type="text" id="pfNm" readonly></div>
+                <div class="fg2"><label>Email</label><input type="email" id="pfEm" readonly></div>
+                <div class="fg2"><label>Phone</label><input type="tel" id="pfPh" readonly></div>
+                <div class="fg2"><label>Age</label><input type="number" id="pfAg" min="16" max="60"
+                    placeholder="Your age"></div>
+                <div class="fg2"><label>Gender</label><select id="pfGn">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                    <option>Prefer not to say</option>
+                  </select></div>
+                <div class="fg2"><label>Category</label><select id="pfCt">
+                    <option value="">Select</option>
+                    <option>General</option>
+                    <option>OBC</option>
+                    <option>SC</option>
+                    <option>ST</option>
+                    <option>EWS</option>
+                    <option>PwD</option>
+                  </select></div>
+                <div class="fg2"><label>Qualification</label><select id="pfQl">
+                    <option value="">Select</option>
+                    <option value="10th">10th Pass</option>
+                    <option value="12th">12th Pass</option>
+                    <option value="Diploma">Diploma/ITI</option>
+                    <option value="Graduate">Graduate</option>
+                    <option value="Postgraduate">Postgraduate</option>
+                    <option value="B.E./B.Tech">B.E./B.Tech</option>
+                  </select></div>
+                <div class="fg2"><label>State</label><select id="pfSt">
+                    <option value="">Select</option>
+                    <option>Karnataka</option>
+                    <option>Maharashtra</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Tamil Nadu</option>
+                    <option>Rajasthan</option>
+                    <option>Bihar</option>
+                    <option>Gujarat</option>
+                    <option>West Bengal</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Telangana</option>
+                    <option>Kerala</option>
+                    <option>Punjab</option>
+                    <option>Haryana</option>
+                    <option>Delhi</option>
+                    <option>Odisha</option>
+                    <option>Assam</option>
+                    <option>Jharkhand</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Uttarakhand</option>
+                    <option>Goa</option>
+                    <option>Other</option>
+                  </select></div>
+                <div class="fg2 full"><label>Bio</label><input type="text" id="pfBi"
+                    placeholder="e.g. Preparing for UPSC CSE 2026"></div>
+              </div>
+              <div class="fact">
+                <button class="btn-sp" id="btnSvP"><i class="bi bi-check-lg"></i> Save Changes</button>
+                <button class="btn-rp" id="btnRsP">Reset</button>
+              </div>
+              <div class="smsg" id="smsg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="dov" id="dov">
+    <div class="dbox">
+      <div class="dhdr">
+        <div class="dbadges" id="dbadges"></div>
+        <div class="dtitle" id="dtitle"></div>
+        <div class="dfull" id="dfull"></div>
+        <div class="dorg" id="dorg"></div>
+        <button class="dbtn-close" id="dClose"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="dbody">
+        <div class="dgrid">
+          <div class="di"><label>Eligibility</label>
+            <p id="dElig"></p>
+          </div>
+          <div class="di"><label>Mode</label>
+            <p id="dMode"></p>
+          </div>
+          <div class="di"><label>Stages</label>
+            <p id="dStg"></p>
+          </div>
+          <div class="di"><label>Frequency</label>
+            <p id="dFrq"></p>
+          </div>
+          <div class="di"><label>Posts / Services</label>
+            <p id="dPst"></p>
+          </div>
+          <div class="di"><label>Status</label>
+            <p id="dSts"></p>
+          </div>
+        </div>
+        <div class="dsec">
+          <h3>Important Dates</h3>
+          <div class="ddr"><i class="bi bi-calendar3"></i><span><strong>Exam Date:</strong> <span
+                id="dDt"></span></span></div>
+          <div class="ddr"><i class="bi bi-pencil-square"></i><span><strong>Apply by:</strong> <span
+                id="dAp"></span></span></div>
+          <div class="ddr"><i class="bi bi-award"></i><span><strong>Result:</strong> <span id="dRs"></span></span></div>
+        </div>
+      </div>
+      <div class="dact">
+        <button class="btn-site" id="dSite"><i class="bi bi-box-arrow-up-right"></i> Official Site</button>
+        <button class="btn-dsv" id="dSave"><i class="bi bi-bookmark-plus"></i> Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER DRAWER -->
+  <div class="fdov" id="fdov"></div>
+  <aside class="fd" id="fd">
+    <div class="fdh">
+      <div>
+        <h2>Filter Exams</h2>
+        <div class="pfn" id="pfn"><i class="bi bi-person-check-fill"></i> Pre-filled from profile</div>
+      </div>
+      <button class="btn-xd" id="fdClose"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="fdb">
+      <div class="fg"><label>Age</label><input type="number" id="fAge" min="18" max="40" placeholder="e.g. 24"></div>
+      <div class="fg"><label>Qualification</label><select id="fQual">
+          <option value="">Any</option>
+          <option value="10th">10th</option>
+          <option value="10+2">12th/10+2</option>
+          <option value="Diploma">Diploma/ITI</option>
+          <option value="Graduate">Graduate</option>
+          <option value="B.E.">B.E./B.Tech</option>
+          <option value="Postgraduate">Postgraduate</option>
+        </select></div>
+      <div class="fg"><label>Category</label><select id="fCat">
+          <option value="">Any Category</option>
+          <optgroup label="Central / National">
+            <option value="Central Govt">Central Govt</option>
+            <option value="Central PSU">Central PSU</option>
+            <option value="Central Paramilitary">Central Paramilitary</option>
+            <option value="Intelligence">Intelligence</option>
+            <option value="Postal">Postal</option>
+            <option value="Education (Central)">Education (Central)</option>
+            <option value="Management">Management</option>
+          </optgroup>
+          <optgroup label="Banking / Finance">
+            <option value="Banking">Banking</option>
+            <option value="Banking/Finance">Banking / Finance</option>
+            <option value="Finance Regulator">Finance Regulator</option>
+            <option value="Insurance PSU">Insurance PSU</option>
+          </optgroup>
+          <optgroup label="Defence / Police">
+            <option value="Defence">Defence</option>
+            <option value="Defence PSU">Defence PSU</option>
+            <option value="PSU (Defence)">PSU (Defence)</option>
+            <option value="State Police (UP)">State Police (UP)</option>
+            <option value="State Police (HR)">State Police (Haryana)</option>
+            <option value="State Police (MH)">State Police (Maharashtra)</option>
+            <option value="State Police (TN)">State Police (Tamil Nadu)</option>
+            <option value="State Police (Bihar)">State Police (Bihar)</option>
+          </optgroup>
+          <optgroup label="Railways">
+            <option value="Railways">Railways</option>
+          </optgroup>
+          <optgroup label="PSU">
+            <option value="PSU">PSU (General)</option>
+            <option value="PSU (Gas)">PSU (Gas)</option>
+            <option value="PSU (Oil &amp; Gas)">PSU (Oil &amp; Gas)</option>
+            <option value="PSU (Power)">PSU (Power)</option>
+            <option value="PSU (Mining)">PSU (Mining)</option>
+            <option value="PSU (Manufacturing)">PSU (Manufacturing)</option>
+            <option value="PSU (Telecom)">PSU (Telecom)</option>
+            <option value="PSU Gateway / PG Admission">PSU Gateway / PG Admission</option>
+            <option value="Nuclear/PSU">Nuclear / PSU</option>
+            <option value="Space/PSU">Space / PSU</option>
+          </optgroup>
+          <optgroup label="State Govt">
+            <option value="State Govt (AP)">State Govt – Andhra Pradesh</option>
+            <option value="State Govt (Assam)">State Govt – Assam</option>
+            <option value="State Govt (Bihar)">State Govt – Bihar</option>
+            <option value="State Govt (CG)">State Govt – Chhattisgarh</option>
+            <option value="State Govt (Delhi)">State Govt – Delhi</option>
+            <option value="State Govt (Goa)">State Govt – Goa</option>
+            <option value="State Govt (Gujarat)">State Govt – Gujarat</option>
+            <option value="State Govt (Haryana)">State Govt – Haryana</option>
+            <option value="State Govt (HP)">State Govt – Himachal Pradesh</option>
+            <option value="State Govt (J&amp;K)">State Govt – J&amp;K</option>
+            <option value="State Govt (JH)">State Govt – Jharkhand</option>
+            <option value="State Govt (Karnataka)">State Govt – Karnataka</option>
+            <option value="State Govt (Kerala)">State Govt – Kerala</option>
+            <option value="State Govt (MH)">State Govt – Maharashtra</option>
+            <option value="State Govt (Manipur)">State Govt – Manipur</option>
+            <option value="State Govt (Meghalaya)">State Govt – Meghalaya</option>
+            <option value="State Govt (MP)">State Govt – Madhya Pradesh</option>
+            <option value="State Govt (Odisha)">State Govt – Odisha</option>
+            <option value="State Govt (Punjab)">State Govt – Punjab</option>
+            <option value="State Govt (Raj)">State Govt – Rajasthan</option>
+            <option value="State Govt (TN)">State Govt – Tamil Nadu</option>
+            <option value="State Govt (Tripura)">State Govt – Tripura</option>
+            <option value="State Govt (TS)">State Govt – Telangana</option>
+            <option value="State Govt (UK)">State Govt – Uttarakhand</option>
+            <option value="State Govt (UP)">State Govt – Uttar Pradesh</option>
+            <option value="State Govt (WB)">State Govt – West Bengal</option>
+          </optgroup>
+        </select></div>
+      <div class="fg"><label>Conducting Body</label><select id="fBod">
+          <option value="">Any Body</option>
+          <optgroup label="Central / UPSC / SSC">
+            <option>UPSC</option>
+            <option>UPSC (for EPFO)</option>
+            <option>SSC</option>
+            <option>RRB</option>
+          </optgroup>
+          <optgroup label="Banking / Finance">
+            <option>IBPS</option>
+            <option>SBI</option>
+            <option>RBI</option>
+            <option>NABARD</option>
+            <option>NHB</option>
+            <option>SEBI</option>
+          </optgroup>
+          <optgroup label="Insurance">
+            <option>LIC</option>
+            <option>GIC Re</option>
+            <option>NIACL</option>
+          </optgroup>
+          <optgroup label="Defence / Paramilitary">
+            <option>Indian Army</option>
+            <option>IAF</option>
+            <option>Indian Coast Guard</option>
+            <option>DRDO</option>
+          </optgroup>
+          <optgroup label="PSU / Science">
+            <option>ISRO</option>
+            <option>BARC/DAE</option>
+            <option>BHEL</option>
+            <option>HAL</option>
+            <option>ONGC</option>
+            <option>NTPC</option>
+            <option>IOCL</option>
+            <option>GAIL</option>
+            <option>CIL</option>
+            <option>BSNL</option>
+            <option>AAI</option>
+            <option>FCI</option>
+            <option>EPFO</option>
+            <option>India Post (DoP)</option>
+          </optgroup>
+          <optgroup label="Education">
+            <option>IITs/IISc</option>
+            <option>IIMs</option>
+            <option>KVS</option>
+            <option>NVS</option>
+          </optgroup>
+          <optgroup label="Intelligence">
+            <option>IB / MHA</option>
+          </optgroup>
+          <optgroup label="State PSCs">
+            <option>KPSC</option>
+            <option>KPSC (Kerala)</option>
+            <option>MPSC</option>
+            <option>TNPSC</option>
+            <option>UPPSC</option>
+            <option>BPSC</option>
+            <option>RPSC</option>
+            <option>WBPSC</option>
+            <option>GPSC</option>
+            <option>MPPSC</option>
+            <option>TSPSC</option>
+            <option>APPSC</option>
+            <option>OPSC</option>
+            <option>JPSC</option>
+            <option>CGPSC</option>
+            <option>HPPSC</option>
+            <option>HPSC</option>
+            <option>UKPSC</option>
+            <option>PPSC</option>
+            <option>JKSSB / JKPSC</option>
+            <option>APSC</option>
+            <option>TPSC</option>
+            <option>MPSC (Manipur)</option>
+            <option>MPSC (Meghalaya)</option>
+            <option>GPSC (Goa)</option>
+          </optgroup>
+          <optgroup label="State Police">
+            <option>UPPRPB</option>
+            <option>BPSSC / BPSRB</option>
+            <option>HSSC / HPRB</option>
+            <option>TNUSRB</option>
+            <option>Maharashtra Police Dept</option>
+          </optgroup>
+          <optgroup label="Other State Bodies">
+            <option>DSSSB</option>
+            <option>OJAS Gujarat</option>
+          </optgroup>
+        </select></div>
+      <div class="fg"><label>Status</label><select id="fSts">
+          <option value="">All</option>
+          <option value="Currently Active">Currently Active</option>
+          <option value="Upcoming">Upcoming</option>
+        </select></div>
+      <div class="fg"><label>Mode</label><select id="fMod">
+          <option value="">Any Mode</option>
+          <option value="Online (CBT)">Online (CBT)</option>
+          <option value="Online (GATE-based)">Online (GATE-based)</option>
+          <option value="Online (CBT / GATE-based)">Online (CBT / GATE-based)</option>
+          <option value="Online">Online</option>
+          <option value="Offline">Offline</option>
+          <option value="Online/Offline">Online / Offline</option>
+          <option value="Offline/Online">Offline / Online</option>
+          <option value="Merit-based / Online">Merit-based / Online</option>
+        </select></div>
+      <div class="fg"><label>Frequency</label><select id="fFreq">
+          <option value="">Any Frequency</option>
+          <option value="Annual">Annual</option>
+          <option value="Twice a year">Twice a Year</option>
+          <option value="As per vacancy">As per Vacancy</option>
+          <option value="As per vacancies">As per Vacancies</option>
+          <option value="Irregular">Irregular</option>
+          <option value="Occasional">Occasional</option>
+          <option value="Continuous">Continuous</option>
+        </select></div>
+    </div>
+    <div class="fdf">
+      <button class="btn-rall" id="fReset">Reset All</button>
+      <button class="btn-apply" id="fApply">Apply Filters</button>
+    </div>
+  </aside>
+
+  <!-- PHOTO MODAL -->
+  <div class="pmov" id="pmov">
+    <div class="pmbox">
+      <h3>Change Profile Photo</h3>
+      <div class="popts">
+        <div class="popt" id="pUpload"><i class="bi bi-upload"></i>Upload<input type="file" id="pFile" accept="image/*"
+            style="display:none"></div>
+        <div class="popt" id="pRemove"><i class="bi bi-trash3"></i>Remove</div>
+      </div>
+      <button class="pmcancel" id="pmClose">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+
+
+    /* APP */
+    if (localStorage.getItem("loggedIn") !== "true") { alert("Please login first."); window.location.href = "login.html"; }
+    var EM = localStorage.getItem("userEmail") || "", NM = localStorage.getItem("userName") || "", PH = localStorage.getItem("userPhone") || "";
+    var EXAMS = [];
+
+    function popFilters() {
+      var cats = [...new Set(EXAMS.map(x=>x["Category"]).filter(x=>x))].sort();
+      document.getElementById("fCat").innerHTML = '<option value="">Any Category</option>' + cats.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+
+      var bods = [...new Set(EXAMS.map(x=>x["Conducting Body"]).filter(x=>x))].sort();
+      document.getElementById("fBod").innerHTML = '<option value="">Any Body</option>' + bods.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+      
+      var mods = [...new Set(EXAMS.map(x=>x["Mode"]).filter(x=>x))].sort();
+      document.getElementById("fMod").innerHTML = '<option value="">Any Mode</option>' + mods.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+      
+      var frqs = [...new Set(EXAMS.map(x=>x["Frequency"]).filter(x=>x))].sort();
+      document.getElementById("fFreq").innerHTML = '<option value="">Any Frequency</option>' + frqs.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+    }
+
+    // Fetch exams from backend — runs every time page loads
+    async function loadExams() {
+      try {
+        var res = await fetch("http://127.0.0.1:8000/exams");
+        var data = await res.json();
+        EXAMS = data.exams || [];
+        popFilters();
+        updStats();
+        doFilter();
+        loadProf();
+      } catch (err) {
+        console.error("Could not load exams:", err);
+        document.getElementById("gExams").innerHTML = '<div class="empty"><i class="bi bi-wifi-off"></i><p>Backend not connected.<br>Make sure uvicorn is running on port 8000.</p></div>';
+      }
+    }
+    var SK = "exammitra_saved", PK = "exammitra_profile", PHK = "exammitra_photo";
+    function gS() { try { return JSON.parse(localStorage.getItem(SK) || "[]"); } catch (e) { return []; } }
+    function sS(a) { localStorage.setItem(SK, JSON.stringify(a)); }
+    function gP() { try { return JSON.parse(localStorage.getItem(PK) || "{}"); } catch (e) { return {}; } }
+    function sP(p) { localStorage.setItem(PK, JSON.stringify(p)); }
+    var saved = gS(), filt = {}, curV = "exams", curQ = "all", curDex = null;
+    function updTop() {
+      var p = gP(), nm = p.name || NM || EM.split("@")[0] || "U";
+      var av = document.getElementById("tbAv"), ph = localStorage.getItem(PHK);
+      if (ph) av.innerHTML = '<img src="' + ph + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+      else av.textContent = nm.charAt(0).toUpperCase();
+    }
+    function updStats() {
+      var ac = EXAMS.filter(function (e) { return e["Status"] === "Currently Active"; }).length;
+      var up = EXAMS.filter(function (e) { return e["Status"] === "Upcoming"; }).length;
+      document.getElementById("stAc").textContent = ac; document.getElementById("stUp").textContent = up;
+      document.getElementById("stSv").textContent = saved.length;
+      document.getElementById("psSv").textContent = saved.length;
+      document.getElementById("psAc").textContent = ac;
+      var stT = document.getElementById("stTotal"); if (stT) stT.textContent = EXAMS.length;
+      var psT = document.getElementById("psTotal"); if (psT) psT.textContent = EXAMS.length;
+      var ph = document.querySelector(".phdr p");
+      if (ph && EXAMS.length > 0) ph.innerHTML = EXAMS.length + '+ competitive exams Notification — click <b style="color:#7dd3fc;font-weight:600;">View Details</b> for complete information';
+    }
+    function bgc(cat) {
+      if (!cat) return "bps"; var c = cat.toLowerCase();
+      if (c.includes("central")) return "bce";
+      if (c.includes("state") || c.includes("police")) return "bst";
+      if (c.includes("defence") || c.includes("army") || c.includes("navy") || c.includes("air") || c.includes("intel")) return "bde";
+      if (c.includes("bank") || c.includes("financ") || c.includes("insur")) return "bba";
+      if (c.includes("rail")) return "bra";
+      if (c.includes("psu") || c.includes("gas") || c.includes("oil") || c.includes("coal") || c.includes("power") || c.includes("nuclear") || c.includes("space")) return "bps";
+      return "bps";
+    }
+    function mkCard(ex) {
+      var nm = ex["Exam Name"], sv = saved.indexOf(nm) !== -1, ac = ex["Status"] === "Currently Active";
+      var d = document.createElement("div"); d.className = "card" + (sv ? " sv" : ""); d.dataset.id = nm;
+      d.innerHTML = '<div class="svtag"><i class="bi bi-bookmark-check-fill"></i> Saved</div><div class="ctop"><div class="cbadges"><span class="badge ' + (ac ? "ba" : "bu") + '">' + (ac ? "● " : "") + ex["Status"] + '</span><span class="badge ' + bgc(ex["Category"]) + '">' + ex["Category"] + '</span></div><div class="ctitle">' + nm + '</div><div class="cfull">' + ex["Full Form"] + '</div><div class="corg"><i class="bi bi-building"></i>' + ex["Conducting Body"] + '</div></div><div class="cfoot"><button class="btn-vd btn-vd-a"><i class="bi bi-eye-fill"></i> View Details</button><button class="btn-sv btn-sv-a"><i class="bi ' + (sv ? "bi-bookmark-check-fill" : "bi-bookmark-plus") + '"></i></button></div>';
+      return d;
+    }
+    function renderG(id, list) {
+      var g = document.getElementById(id); g.innerHTML = "";
+      if (!list.length) { g.innerHTML = '<div class="empty"><i class="bi bi-search"></i><p>No exams found.<br>Try adjusting your search or filters.</p></div>'; return; }
+      var f = document.createDocumentFragment(); list.forEach(function (e) { f.appendChild(mkCard(e)); }); g.appendChild(f);
+    }
+    function doFilter() {
+      var term = (document.getElementById("srch").value || "").trim().toLowerCase();
+      var list = EXAMS.slice();
+
+      /* ── Status quick-filter (tab pills) ── */
+      if (curQ !== "all") {
+        list = list.filter(function (e) { return e["Status"] === curQ; });
+      }
+
+      /* ── Text search across key fields ── */
+      if (term) {
+        list = list.filter(function (e) {
+          return (
+            (e["Exam Name"] || "").toLowerCase().indexOf(term) !== -1 ||
+            (e["Full Form"] || "").toLowerCase().indexOf(term) !== -1 ||
+            (e["Conducting Body"] || "").toLowerCase().indexOf(term) !== -1 ||
+            (e["Category"] || "").toLowerCase().indexOf(term) !== -1 ||
+            (e["Posts / Services"] || "").toLowerCase().indexOf(term) !== -1
+          );
+        });
+      }
+
+      /* ── Age filter — checks JSON "Eligibility" field ── */
+      if (filt.age) {
+        var a = Number(filt.age);
+        list = list.filter(function (e) {
+          var elig = (e["Eligibility"] || "");
+          var m = elig.match(/Age\s*(\d+\.?\d*)\s*[-–]\s*(\d+\.?\d*)/i);
+          if (!m) return true;   // no age limit mentioned → show it
+          return a >= parseFloat(m[1]) && a <= parseFloat(m[2]);
+        });
+      }
+
+      /* ── Qualification filter — checks JSON "Eligibility" field ── */
+      if (filt.qual) {
+        var q = filt.qual.toLowerCase();
+        list = list.filter(function (e) {
+          var elig = (e["Eligibility"] || "").toLowerCase();
+          /* qualification hierarchy: higher qual satisfies lower requirements */
+          var hierarchy = ["10th", "10+2", "diploma", "graduate", "b.e.", "postgraduate"];
+          var qi = hierarchy.indexOf(q);
+          /* exact match first */
+          if (elig.indexOf(q) !== -1) return true;
+          /* if user selected "Graduate", also show exams requiring 10th/12th */
+          if (qi > 0) {
+            for (var i = 0; i < qi; i++) {
+              if (elig.indexOf(hierarchy[i]) !== -1) return true;
+            }
+          }
+          return false;
+        });
+      }
+
+      /* ── Category filter — EXACT match against JSON "Category" field ── */
+      if (filt.cat) {
+        /* Decode HTML entities the browser already decoded from option value */
+        list = list.filter(function (e) {
+          return (e["Category"] || "") === filt.cat;
+        });
+      }
+
+      /* ── Conducting Body filter — EXACT match against JSON "Conducting Body" ── */
+      if (filt.bod) {
+        list = list.filter(function (e) {
+          return (e["Conducting Body"] || "") === filt.bod;
+        });
+      }
+
+      /* ── Status filter (from drawer) — EXACT match ── */
+      if (filt.sts) {
+        list = list.filter(function (e) {
+          return (e["Status"] || "") === filt.sts;
+        });
+      }
+
+      /* ── Mode filter — EXACT match against JSON "Mode" field ── */
+      if (filt.mod) {
+        list = list.filter(function (e) {
+          return (e["Mode"] || "") === filt.mod;
+        });
+      }
+
+      /* ── Frequency filter — EXACT match against JSON "Frequency" field ── */
+      if (filt.freq) {
+        list = list.filter(function (e) {
+          return (e["Frequency"] || "") === filt.freq;
+        });
+      }
+
+      document.getElementById("rcnt").textContent = list.length;
+      renderG("gExams", list);
+    }
+    function doSaved() { var list = EXAMS.filter(function (e) { return saved.indexOf(e["Exam Name"]) !== -1; }); document.getElementById("rcntSv").textContent = list.length; renderG("gSaved", list); }
+    function toggleSave(nm) { var i = saved.indexOf(nm); if (i === -1) saved.push(nm); else saved.splice(i, 1); sS(saved); updStats(); doFilter(); doSaved(); if (curDex && curDex["Exam Name"] === nm) updDSave(); }
+    function attachEv(gid) {
+      document.getElementById(gid).addEventListener("click", function (ev) {
+        var card = ev.target.closest(".card"); if (!card) return;
+        var id = card.dataset.id, ex = EXAMS.find(function (e) { return e["Exam Name"] === id; }); if (!ex) return;
+        if (ev.target.closest(".btn-vd-a")) { openDetail(ex); return; }
+        if (ev.target.closest(".btn-sv-a")) { toggleSave(id); }
+      });
+    }
+    function openDetail(ex) {
+      curDex = ex; var ac = ex["Status"] === "Currently Active";
+      document.getElementById("dbadges").innerHTML = '<span class="badge ' + (ac ? "ba" : "bu") + '">' + (ac ? "● " : "") + ex["Status"] + '</span><span class="badge ' + bgc(ex["Category"]) + '">' + ex["Category"] + '</span>';
+      document.getElementById("dtitle").textContent = ex["Exam Name"]; document.getElementById("dfull").textContent = ex["Full Form"];
+      document.getElementById("dorg").innerHTML = '<i class="bi bi-building"></i>' + ex["Conducting Body"];
+      document.getElementById("dElig").textContent = ex["Eligibility"]; document.getElementById("dMode").textContent = ex["Mode"];
+      document.getElementById("dStg").textContent = ex["Stages"]; document.getElementById("dFrq").textContent = ex["Frequency"];
+      document.getElementById("dPst").textContent = ex["Posts / Services"]; document.getElementById("dSts").textContent = ex["Status"];
+      document.getElementById("dDt").textContent = ex["Exam Date(s)"]; document.getElementById("dAp").textContent = ex["Application / Last Date"];
+      document.getElementById("dRs").textContent = ex["Result / Expiry Date"];
+      document.getElementById("dSite").onclick = function () { window.open(ex["Official URL"] || ("https://www.google.com/search?q=" + encodeURIComponent(ex["Exam Name"])), "_blank"); };
+      updDSave(); document.getElementById("dov").classList.add("on");
+    }
+    function updDSave() { if (!curDex) return; var sv = saved.indexOf(curDex["Exam Name"]) !== -1; var b = document.getElementById("dSave"); b.className = "btn-dsv" + (sv ? " sv" : ""); b.innerHTML = '<i class="bi ' + (sv ? "bi-bookmark-check-fill" : "bi-bookmark-plus") + '"></i> ' + (sv ? "Saved" : "Save"); }
+    document.getElementById("dSave").addEventListener("click", function () { if (curDex) toggleSave(curDex["Exam Name"]); });
+    document.getElementById("dClose").addEventListener("click", function () { document.getElementById("dov").classList.remove("on"); });
+    document.getElementById("dov").addEventListener("click", function (e) { if (e.target === this) this.classList.remove("on"); });
+    document.getElementById("srch").addEventListener("input", doFilter);
+    document.querySelectorAll(".qf").forEach(function (el) {
+      el.addEventListener("click", function () {
+        document.querySelectorAll(".qf").forEach(function (q) { q.classList.remove("on", "g-on", "p-on"); });
+        curQ = el.dataset.q;
+        if (curQ === "Currently Active") el.classList.add("g-on"); else if (curQ === "Upcoming") el.classList.add("p-on"); else el.classList.add("on");
+        doFilter();
+      });
+    });
+    var fd = document.getElementById("fd"), fdov = document.getElementById("fdov");
+    function openFd() {
+      var p = gP(), pre = false, ae = document.getElementById("fAge");
+      if (!ae.value && p.age) { ae.value = p.age; ae.classList.add("pf"); pre = true; }
+      var qm = { "10th": "10th", "12th": "10+2", "Diploma": "Diploma", "Graduate": "Graduate", "Postgraduate": "Postgraduate", "B.E./B.Tech": "B.E." };
+      var qe = document.getElementById("fQual");
+      if (!qe.value && p.qual && qm[p.qual]) { qe.value = qm[p.qual]; qe.classList.add("pf"); pre = true; }
+      document.getElementById("pfn").style.display = pre ? "block" : "none";
+      fd.classList.add("on"); fdov.classList.add("on");
+    }
+    function closeFd() { fd.classList.remove("on"); fdov.classList.remove("on"); }
+    document.getElementById("btnFilter").addEventListener("click", openFd);
+    document.getElementById("fdClose").addEventListener("click", closeFd);
+    fdov.addEventListener("click", closeFd);
+    document.getElementById("fApply").addEventListener("click", function () {
+      filt = {
+        age: document.getElementById("fAge").value,
+        qual: document.getElementById("fQual").value,
+        cat: document.getElementById("fCat").value,
+        bod: document.getElementById("fBod").value,
+        sts: document.getElementById("fSts").value,
+        mod: document.getElementById("fMod").value,
+        freq: document.getElementById("fFreq").value
+      };
+      document.getElementById("btnFilter").classList.toggle("on", Object.values(filt).some(function (v) { return v != ""; }));
+      closeFd(); doFilter();
+    });
+    document.getElementById("fReset").addEventListener("click", function () {
+      ["fAge", "fQual", "fCat", "fBod", "fSts", "fMod", "fFreq"].forEach(function (id) { var el = document.getElementById(id); el.value = ""; el.classList.remove("pf"); });
+      document.getElementById("pfn").style.display = "none"; document.getElementById("btnFilter").classList.remove("on"); filt = {}; doFilter();
+    });
+    function showV(v) {
+      curV = v;
+      document.getElementById("vExams").className = "view" + (v === "exams" ? " on" : "");
+      document.getElementById("vSaved").className = "view" + (v === "saved" ? " on" : "");
+      document.getElementById("vProfile").className = "view" + (v === "profile" ? " on" : "");
+      if (v === "saved") doSaved(); if (v === "profile") loadProf();
+      document.getElementById("btnBack").className = "btn-back" + (v !== "exams" ? " show" : "");
+    }
+    document.getElementById("btnBack").addEventListener("click", function () {
+      curQ = "all"; filt = {};
+      document.querySelectorAll(".qf").forEach(function (q) { q.classList.remove("on", "g-on", "p-on"); });
+      document.querySelector('.qf[data-q="all"]').classList.add("on");
+      document.getElementById("btnFilter").classList.remove("on"); document.getElementById("rlbl").textContent = "All Exams";
+      setNI("niExams"); showV("exams"); doFilter();
+    });
+    function loadProf() {
+      var p = gP(); if (!p.name && NM) { p.name = NM; p.phone = PH || ""; sP(p); }
+      var nm = p.name || NM || EM.split("@")[0] || "User";
+      document.getElementById("pfNm").value = nm; document.getElementById("pfEm").value = EM;
+      document.getElementById("pfPh").value = p.phone || PH || ""; document.getElementById("pfAg").value = p.age || "";
+      document.getElementById("pfGn").value = p.gender || ""; document.getElementById("pfCt").value = p.category || "";
+      document.getElementById("pfQl").value = p.qual || ""; document.getElementById("pfSt").value = p.state || "";
+      document.getElementById("pfBi").value = p.bio || "";
+      document.getElementById("pNm").textContent = nm; document.getElementById("pEm").textContent = EM;
+      var ph = localStorage.getItem(PHK), av = document.getElementById("pAv");
+      if (ph) av.innerHTML = '<img src="' + ph + '" alt="avatar">'; else av.innerHTML = '<span>' + nm.charAt(0).toUpperCase() + '</span>';
+      updStats(); updTop();
+    }
+    document.getElementById("btnSvP").addEventListener("click", function () {
+      var p = { name: document.getElementById("pfNm").value.trim(), phone: document.getElementById("pfPh").value.trim(), age: document.getElementById("pfAg").value.trim(), gender: document.getElementById("pfGn").value, category: document.getElementById("pfCt").value, qual: document.getElementById("pfQl").value, state: document.getElementById("pfSt").value, bio: document.getElementById("pfBi").value.trim() };
+      if (!p.name) { alert("Name cannot be empty."); return; }
+      sP(p); localStorage.setItem("userName", p.name); if (p.phone) localStorage.setItem("userPhone", p.phone); NM = p.name;
+      loadProf(); var m = document.getElementById("smsg"); m.style.color = "#34d399"; m.textContent = "✓ Profile saved successfully!"; m.style.display = "block"; setTimeout(function () { m.style.display = "none"; }, 3000);
+    });
+    document.getElementById("btnRsP").addEventListener("click", function () {
+      var p = gP();
+      sP({ name: p.name || NM || "", phone: p.phone || PH || "", age: "", gender: "", category: "", qual: "", state: "", bio: "" });
+      loadProf(); var m = document.getElementById("smsg"); m.style.color = "#fbbf24"; m.textContent = "Profile reset."; m.style.display = "block"; setTimeout(function () { m.style.display = "none"; }, 2500);
+    });
+    var pmov = document.getElementById("pmov");
+    document.getElementById("pCam").addEventListener("click", function () { pmov.classList.add("on"); });
+    document.getElementById("pmClose").addEventListener("click", function () { pmov.classList.remove("on"); });
+    document.getElementById("pUpload").addEventListener("click", function () { document.getElementById("pFile").click(); });
+    document.getElementById("pFile").addEventListener("change", function (e) { var f = e.target.files[0]; if (!f) return; var r = new FileReader(); r.onload = function (ev) { localStorage.setItem(PHK, ev.target.result); pmov.classList.remove("on"); loadProf(); }; r.readAsDataURL(f); });
+    document.getElementById("pRemove").addEventListener("click", function () { localStorage.removeItem(PHK); pmov.classList.remove("on"); loadProf(); });
+    var db = document.getElementById("dotsBtn"), nd = document.getElementById("ndrop");
+    db.addEventListener("click", function (e) { e.stopPropagation(); var o = nd.classList.toggle("on"); db.classList.toggle("on", o); });
+    document.addEventListener("click", function (e) { if (!nd.contains(e.target) && e.target !== db) { nd.classList.remove("on"); db.classList.remove("on"); } });
+    function setNI(id) { document.querySelectorAll(".nd-it").forEach(function (el) { el.classList.remove("on"); }); var el = document.getElementById(id); if (el) el.classList.add("on"); }
+    function closeNav() { nd.classList.remove("on"); db.classList.remove("on"); }
+    document.getElementById("niExams").addEventListener("click", function () { setNI("niExams"); curQ = "all"; filt = {}; document.querySelectorAll(".qf").forEach(function (q) { q.classList.remove("on", "g-on", "p-on"); }); document.querySelector('.qf[data-q="all"]').classList.add("on"); document.getElementById("btnFilter").classList.remove("on"); document.getElementById("rlbl").textContent = "All Exams"; showV("exams"); doFilter(); closeNav(); });
+    document.getElementById("niActive").addEventListener("click", function () { setNI("niActive"); curQ = "Currently Active"; filt = {}; document.querySelectorAll(".qf").forEach(function (q) { q.classList.remove("on", "g-on", "p-on"); }); document.querySelector('.qf[data-q="Currently Active"]').classList.add("g-on"); document.getElementById("rlbl").textContent = "Active Exams"; showV("exams"); doFilter(); closeNav(); });
+    document.getElementById("niUpcoming").addEventListener("click", function () { setNI("niUpcoming"); curQ = "Upcoming"; filt = {}; document.querySelectorAll(".qf").forEach(function (q) { q.classList.remove("on", "g-on", "p-on"); }); document.querySelector('.qf[data-q="Upcoming"]').classList.add("p-on"); document.getElementById("rlbl").textContent = "Upcoming Exams"; showV("exams"); doFilter(); closeNav(); });
+    document.getElementById("niSaved").addEventListener("click", function () { setNI("niSaved"); showV("saved"); closeNav(); });
+    document.getElementById("niProfile").addEventListener("click", function () { setNI("niProfile"); showV("profile"); closeNav(); });
+    document.getElementById("niSupport").addEventListener("click", function () { window.location.href = "mailto:exammitra@gmail.com"; closeNav(); });
+    document.getElementById("niLogout").addEventListener("click", function () { ["loggedIn", "userEmail", "userName", "userPhone", "exammitra_profile", "exammitra_photo", "exammitra_saved"].forEach(function (k) { localStorage.removeItem(k); }); window.location.href = "login.html"; });
+    document.getElementById("tbAv").addEventListener("click", function () { setNI("niProfile"); showV("profile"); });
+    attachEv("gExams"); attachEv("gSaved");
+    updTop();
+    loadExams();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ExamMitra Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: #f1f5f9;
+      background: #0a0c1a;
+    }
+
+    /* BG */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(145deg, #0a0c1a 0%, #0e1225 40%, #0c1020 100%);
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: blobM linear infinite;
+    }
+
+    .b1 {
+      width: 600px;
+      height: 600px;
+      top: -150px;
+      left: -150px;
+      background: rgba(251, 191, 36, 0.08);
+      animation-duration: 42s;
+    }
+
+    .b2 {
+      width: 500px;
+      height: 500px;
+      top: 40%;
+      right: -150px;
+      background: rgba(239, 68, 68, 0.06);
+      animation-duration: 52s;
+      animation-delay: -20s;
+    }
+
+    .b3 {
+      width: 450px;
+      height: 450px;
+      bottom: -100px;
+      left: 30%;
+      background: rgba(56, 189, 248, 0.06);
+      animation-duration: 46s;
+      animation-delay: -30s;
+    }
+
+    @keyframes blobM {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(40px, 30px) scale(1.05);
+      }
+
+      50% {
+        transform: translate(-20px, 50px) scale(0.97);
+      }
+
+      75% {
+        transform: translate(30px, -20px) scale(1.03);
+      }
+
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+    }
+
+    .ui {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* TOPBAR */
+    .tb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      z-index: 200;
+      background: rgba(10, 12, 26, 0.88);
+      backdrop-filter: blur(28px);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.15);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 14px;
+    }
+
+    .tb-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b, #ef4444);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      box-shadow: 0 0 18px rgba(251, 191, 36, 0.4);
+    }
+
+    .tb-title {
+      font-family: "Playfair Display", serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #fbbf24, #fde68a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tb-badge {
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #fbbf24;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .tb-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tb-admin {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 9px;
+      padding: 7px 14px;
+      color: #fca5a5;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fff;
+    }
+
+    /* TABS */
+    .tabs {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      z-index: 150;
+      background: rgba(10, 12, 26, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      padding: 0 24px;
+      gap: 4px;
+    }
+
+    .tab {
+      padding: 12px 18px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .tab.on {
+      color: #fbbf24;
+      border-bottom-color: #fbbf24;
+    }
+
+    .tab i {
+      font-size: 0.85rem;
+    }
+
+    /* MAIN */
+    .main {
+      padding-top: 110px;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      padding: 24px 24px 60px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.on {
+      display: block;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .sc {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      transition: all .25s;
+    }
+
+    .sc:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .si {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .si-y {
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+    }
+
+    .si-g {
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+    }
+
+    .si-b {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+    }
+
+    .si-r {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+    }
+
+    .sn {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      line-height: 1;
+    }
+
+    .sl {
+      font-size: 0.6rem;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 3px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    /* SECTION HEADER */
+    .shdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .shdr h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      transition: all .22s;
+    }
+
+    .btn-add:hover {
+      box-shadow: 0 8px 22px rgba(245, 158, 11, 0.55);
+      transform: translateY(-1px);
+    }
+
+    /* SEARCH BAR */
+    .sbar {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .sbar i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.28);
+      font-size: 0.85rem;
+    }
+
+    .sbar input {
+      width: 100%;
+      max-width: 360px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 11px;
+      padding: 9px 12px 9px 36px;
+      color: #f1f5f9;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      transition: all .2s;
+    }
+
+    .sbar input:focus {
+      border-color: rgba(251, 191, 36, 0.4);
+      background: rgba(251, 191, 36, 0.05);
+    }
+
+    .sbar input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* TABLE */
+    .tbl-wrap {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .tbl-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .tbl-wrap thead tr {
+      background: rgba(251, 191, 36, 0.06);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.15);
+    }
+
+    .tbl-wrap th {
+      padding: 12px 16px;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 700;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .tbl-wrap td {
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+
+    .tbl-wrap tr:last-child td {
+      border: none;
+    }
+
+    .tbl-wrap tr:hover td {
+      background: rgba(251, 191, 36, 0.03);
+    }
+
+    .badge-a {
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+
+    .badge-u {
+      background: rgba(129, 140, 248, 0.12);
+      color: #c7d2fe;
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+
+    .btn-edit {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 7px;
+      padding: 5px 11px;
+      color: #7dd3fc;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all .18s;
+      margin-right: 5px;
+    }
+
+    .btn-edit:hover {
+      background: rgba(56, 189, 248, 0.2);
+      color: #fff;
+    }
+
+    .btn-del {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 7px;
+      padding: 5px 11px;
+      color: #fca5a5;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all .18s;
+    }
+
+    .btn-del:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fff;
+    }
+
+    .btn-block {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      border-radius: 7px;
+      padding: 5px 11px;
+      color: #fcd34d;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all .18s;
+      margin-right: 5px;
+    }
+
+    .btn-block:hover {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fff;
+    }
+
+    .btn-unblock {
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: 7px;
+      padding: 5px 11px;
+      color: #6ee7b7;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      transition: all .18s;
+      margin-right: 5px;
+    }
+
+    .btn-unblock:hover {
+      background: rgba(52, 211, 153, 0.2);
+      color: #fff;
+    }
+
+    .badge-blocked {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+
+    .badge-active-user {
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+
+    .td-name {
+      font-weight: 700;
+      color: #f1f5f9;
+      max-width: 200px;
+    }
+
+    .td-sm {
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.74rem;
+    }
+
+    .empty-row td {
+      text-align: center;
+      padding: 50px;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 0.85rem;
+    }
+
+    /* MODAL */
+    .mov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .mov.on {
+      display: flex;
+    }
+
+    .mbox {
+      background: rgba(9, 11, 23, 0.98);
+      backdrop-filter: blur(40px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(251, 191, 36, 0.1);
+    }
+
+    .mhdr {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: rgba(9, 11, 23, 0.99);
+      backdrop-filter: blur(20px);
+      border-radius: 22px 22px 0 0;
+      z-index: 1;
+    }
+
+    .mhdr h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.2rem;
+      color: #f1f5f9;
+      font-weight: 700;
+    }
+
+    .btn-mclose {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      padding: 6px 11px;
+      color: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      font-size: 0.76rem;
+      font-family: "Inter", sans-serif;
+      transition: all .18s;
+    }
+
+    .btn-mclose:hover {
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+    }
+
+    .mbody {
+      padding: 22px 24px;
+    }
+
+    .fgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .fg2 {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .fg2.full {
+      grid-column: 1/-1;
+    }
+
+    .fg2 label {
+      font-size: 0.57rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 700;
+    }
+
+    .fg2 input,
+    .fg2 select,
+    .fg2 textarea {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 9px 11px;
+      color: #f1f5f9;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      appearance: none;
+      transition: all .2s;
+      width: 100%;
+    }
+
+    .fg2 input:focus,
+    .fg2 select:focus,
+    .fg2 textarea:focus {
+      border-color: rgba(251, 191, 36, 0.5);
+      background: rgba(251, 191, 36, 0.05);
+    }
+
+    .fg2 input::placeholder,
+    .fg2 textarea::placeholder {
+      color: rgba(255, 255, 255, 0.18);
+    }
+
+    .fg2 option {
+      background: #0c0e1a;
+    }
+
+    .fg2 textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .mact {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      gap: 9px;
+      justify-content: flex-end;
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #fff;
+      border: none;
+      border-radius: 11px;
+      padding: 10px 24px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+      transition: all .2s;
+    }
+
+    .btn-save:hover {
+      box-shadow: 0 7px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-cancel {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 11px;
+      padding: 10px 16px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-cancel:hover {
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    /* CONFIRM MODAL */
+    .cmov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 700;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cmov.on {
+      display: flex;
+    }
+
+    .cbox {
+      background: rgba(9, 11, 23, 0.99);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 20px;
+      padding: 28px;
+      width: 340px;
+      text-align: center;
+    }
+
+    .cbox i {
+      font-size: 2.5rem;
+      color: #ef4444;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .cbox h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 8px;
+    }
+
+    .cbox p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .cbox-btns {
+      display: flex;
+      gap: 9px;
+    }
+
+    .btn-confirm {
+      flex: 1;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-ccancel {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 900;
+      background: rgba(9, 11, 23, 0.97);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.8rem;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .28s cubic-bezier(.34, 1.4, .64, 1);
+    }
+
+    .toast.on {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.ok {
+      border-color: rgba(52, 211, 153, 0.35);
+    }
+
+    .toast.ok i {
+      color: #34d399;
+    }
+
+    .toast.err {
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .toast.err i {
+      color: #ef4444;
+    }
+
+    .toast.warn {
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+
+    .toast.warn i {
+      color: #fbbf24;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:960px) {
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .fgrid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width:640px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .tbl-wrap {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg">
+    <div class="bg-grid"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="ui">
+    <!-- TOPBAR -->
+    <header class="tb">
+      <div class="tb-logo">🛡️</div>
+      <span class="tb-title">ExamMitra</span>
+      <span class="tb-badge"><i class="bi bi-shield-lock-fill"></i> Admin Panel</span>
+      <div class="tb-right">
+        <span class="tb-admin" id="tbAdmin"></span>
+        <button class="btn-logout" onclick="adminLogout()"><i class="bi bi-box-arrow-right"></i> Logout</button>
+      </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab on" data-tab="dashboard" onclick="switchTab('dashboard')"><i class="bi bi-speedometer2"></i>
+        Dashboard</div>
+      <div class="tab" data-tab="exams" onclick="switchTab('exams')"><i class="bi bi-collection-fill"></i> Manage Exams
+      </div>
+      <div class="tab" data-tab="users" onclick="switchTab('users')"><i class="bi bi-people-fill"></i> Manage Users
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="wrap">
+
+        <!-- DASHBOARD VIEW -->
+        <div class="view on" id="vDashboard">
+          <div class="stats" id="statsGrid">
+            <div class="sc">
+              <div class="si si-y"><i class="bi bi-collection-fill"></i></div>
+              <div>
+                <div class="sn" id="stTotal">—</div>
+                <div class="sl">Total Exams</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si si-g"><i class="bi bi-check-circle-fill"></i></div>
+              <div>
+                <div class="sn" id="stActive">—</div>
+                <div class="sl">Active Exams</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si si-b"><i class="bi bi-calendar-event-fill"></i></div>
+              <div>
+                <div class="sn" id="stUpcoming">—</div>
+                <div class="sl">Upcoming</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si si-r"><i class="bi bi-people-fill"></i></div>
+              <div>
+                <div class="sn" id="stUsers">—</div>
+                <div class="sl">Total Users</div>
+              </div>
+            </div>
+            <div class="sc">
+              <div class="si" style="background:rgba(251,191,36,0.12);color:#fbbf24;"><i class="bi bi-slash-circle-fill"></i></div>
+              <div>
+                <div class="sn" id="stBlocked">—</div>
+                <div class="sl">Blocked Users</div>
+              </div>
+            </div>
+          </div>
+          <div class="shdr">
+            <h2>Recent Exams</h2>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Exam Name</th>
+                  <th>Category</th>
+                  <th>Conducting Body</th>
+                  <th>Status</th>
+                  <th>Exam Date</th>
+                </tr>
+              </thead>
+              <tbody id="recentExams">
+                <tr class="empty-row">
+                  <td colspan="5">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- EXAMS VIEW -->
+        <div class="view" id="vExams">
+          <div class="shdr">
+            <h2>All Exams</h2>
+            <button class="btn-add" onclick="openAddExam()"><i class="bi bi-plus-lg"></i> Add Exam</button>
+          </div>
+          <div class="sbar"><i class="bi bi-search"></i><input type="text" id="examSearch" placeholder="Search exams..."
+              oninput="filterExamTable()"></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Exam Name</th>
+                  <th>Category</th>
+                  <th>Body</th>
+                  <th>Status</th>
+                  <th>Mode</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="examsTbl">
+                <tr class="empty-row">
+                  <td colspan="7">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- USERS VIEW -->
+        <div class="view" id="vUsers">
+          <div class="shdr">
+            <h2>Registered Users</h2>
+          </div>
+          <div class="sbar"><i class="bi bi-search"></i><input type="text" id="userSearch" placeholder="Search users..."
+              oninput="filterUserTable()"></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTbl">
+                <tr class="empty-row">
+                  <td colspan="5">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- EXAM MODAL -->
+  <div class="mov" id="examMov">
+    <div class="mbox">
+      <div class="mhdr">
+        <h3 id="mTitle">Add Exam</h3>
+        <button class="btn-mclose" onclick="closeExamModal()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="mbody">
+        <div class="fgrid">
+          <div class="fg2"><label>Exam Name *</label><input type="text" id="fName" placeholder="e.g. UPSC CSE"></div>
+          <div class="fg2"><label>Full Form *</label><input type="text" id="fFull"
+              placeholder="Civil Services Examination"></div>
+          <div class="fg2"><label>Conducting Body *</label><input type="text" id="fBody" placeholder="e.g. UPSC"></div>
+          <div class="fg2"><label>Category *</label><select id="fCat">
+              <option value="">Select</option>
+              <option>Central Govt</option>
+              <option>State Govt</option>
+              <option>Banking</option>
+              <option>Railways</option>
+              <option>Defence</option>
+              <option>PSU</option>
+              <option>Insurance</option>
+              <option>Education</option>
+              <option>Police</option>
+              <option>Central Paramilitary</option>
+              <option>Intelligence</option>
+              <option>Management</option>
+            </select></div>
+          <div class="fg2"><label>Status *</label><select id="fStatus">
+              <option value="Currently Active">Currently Active</option>
+              <option value="Upcoming">Upcoming</option>
+            </select></div>
+          <div class="fg2"><label>Mode *</label><select id="fMode">
+              <option value="Online (CBT)">Online (CBT)</option>
+              <option value="Offline">Offline</option>
+              <option value="Online/Offline">Online/Offline</option>
+              <option value="Online (GATE-based)">Online (GATE-based)</option>
+              <option value="Merit-based / Online">Merit-based / Online</option>
+            </select></div>
+          <div class="fg2"><label>Frequency</label><input type="text" id="fFreq" placeholder="Annual / Twice a year">
+          </div>
+          <div class="fg2"><label>Official URL</label><input type="text" id="fUrl" placeholder="https://upsc.gov.in">
+          </div>
+          <div class="fg2 full"><label>Eligibility</label><input type="text" id="fElig"
+              placeholder="Graduate, Age 21-32"></div>
+          <div class="fg2 full"><label>Posts / Services</label><input type="text" id="fPosts"
+              placeholder="IAS, IPS, IFS..."></div>
+          <div class="fg2 full"><label>Stages</label><input type="text" id="fStages"
+              placeholder="Prelims → Mains → Interview"></div>
+          <div class="fg2"><label>Exam Date(s)</label><input type="text" id="fDate" placeholder="25 May 2026"></div>
+          <div class="fg2"><label>Application / Last Date</label><input type="text" id="fAppDate"
+              placeholder="18 Feb 2026"></div>
+          <div class="fg2 full"><label>Result / Expiry Date</label><input type="text" id="fResult"
+              placeholder="Final Result: Jun 2027"></div>
+        </div>
+      </div>
+      <div class="mact">
+        <button class="btn-cancel" onclick="closeExamModal()">Cancel</button>
+        <button class="btn-save" onclick="saveExam()"><i class="bi bi-check-lg"></i> Save Exam</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM MODAL -->
+  <div class="cmov" id="cmov">
+    <div class="cbox">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <h3>Confirm Delete</h3>
+      <p id="cMsg">Are you sure you want to delete this item? This action cannot be undone.</p>
+      <div class="cbox-btns">
+        <button class="btn-ccancel" onclick="closeConfirm()">Cancel</button>
+        <button class="btn-confirm" id="btnConfirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"><i class="bi bi-check-circle-fill"></i><span id="toastMsg"></span></div>
+
+  <script>
+    var API = "http://127.0.0.1:8000";
+    var allExams = [], allUsers = [], editingExam = null, confirmCb = null;
+
+    // GUARD
+    if (localStorage.getItem("adminLoggedIn") !== "true") { window.location.href = "admin_login.html"; }
+    document.getElementById("tbAdmin").textContent = localStorage.getItem("adminEmail") || "Admin";
+
+    // TOAST
+    function showToast(msg, type) {
+      var t = document.getElementById("toast");
+      t.className = "toast " + (type || "ok");
+      if (type === "err")       t.querySelector("i").className = "bi bi-x-circle-fill";
+      else if (type === "warn") t.querySelector("i").className = "bi bi-slash-circle-fill";
+      else                      t.querySelector("i").className = "bi bi-check-circle-fill";
+      document.getElementById("toastMsg").textContent = msg;
+      t.classList.add("on");
+      setTimeout(function () { t.classList.remove("on"); }, 3000);
+    }
+
+    // TABS
+    function switchTab(tab) {
+      document.querySelectorAll(".tab").forEach(function (t) { t.classList.remove("on"); });
+      document.querySelector('.tab[data-tab="' + tab + '"]').classList.add("on");
+      document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("on"); });
+      if (tab === "dashboard") { document.getElementById("vDashboard").classList.add("on"); loadDashboard(); }
+      if (tab === "exams") { document.getElementById("vExams").classList.add("on"); loadExams(); }
+      if (tab === "users") { document.getElementById("vUsers").classList.add("on"); loadUsers(); }
+    }
+
+    // LOAD DASHBOARD
+    async function loadDashboard() {
+      try {
+        var [exRes, usRes] = await Promise.all([
+          fetch(API + "/exams"),
+          fetch(API + "/admin/users")
+        ]);
+        var exData = await exRes.json();
+        var usData = await usRes.json();
+        allExams = exData.exams || [];
+        allUsers = usData.users || [];
+        var ac = allExams.filter(function (e) { return e["Status"] === "Currently Active"; }).length;
+        var up = allExams.filter(function (e) { return e["Status"] === "Upcoming"; }).length;
+        document.getElementById("stTotal").textContent = allExams.length;
+        document.getElementById("stActive").textContent = ac;
+        document.getElementById("stUpcoming").textContent = up;
+        document.getElementById("stUsers").textContent = allUsers.length;
+        var blocked = allUsers.filter(function (u) { return u.blocked === true; }).length;
+        document.getElementById("stBlocked").textContent = blocked;
+        // Recent 5 exams
+        var tbody = document.getElementById("recentExams");
+        tbody.innerHTML = "";
+        allExams.slice(0, 86).forEach(function (ex) {
+          var ac = ex["Status"] === "Currently Active";
+          tbody.innerHTML += '<tr><td class="td-name">' + ex["Exam Name"] + '</td><td class="td-sm">' + ex["Category"] + '</td><td class="td-sm">' + ex["Conducting Body"] + '</td><td><span class="' + (ac ? "badge-a" : "badge-u") + '">' + ex["Status"] + '</span></td><td class="td-sm">' + (ex["Exam Date(s)"] || "—") + '</td></tr>';
+        });
+      } catch (e) { showToast("Backend not connected", "err"); }
+    }
+
+    // LOAD EXAMS
+    async function loadExams() {
+      try {
+        var res = await fetch(API + "/exams");
+        var data = await res.json();
+        allExams = data.exams || [];
+        renderExamTable(allExams);
+      } catch (e) { showToast("Could not load exams", "err"); }
+    }
+
+    function renderExamTable(list) {
+      var tbody = document.getElementById("examsTbl");
+      tbody.innerHTML = "";
+      if (!list.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No exams found.</td></tr>'; return; }
+      list.forEach(function (ex, i) {
+        var ac = ex["Status"] === "Currently Active";
+        tbody.innerHTML += '<tr><td class="td-sm">' + (i + 1) + '</td><td class="td-name">' + ex["Exam Name"] + '<div class="td-sm">' + ex["Full Form"] + '</div></td><td class="td-sm">' + ex["Category"] + '</td><td class="td-sm">' + ex["Conducting Body"] + '</td><td><span class="' + (ac ? "badge-a" : "badge-u") + '">' + ex["Status"] + '</span></td><td class="td-sm">' + ex["Mode"] + '</td><td><button class="btn-edit" onclick="openEditExam(\'' + ex["Exam Name"].replace(/'/g, "\\'") + '\')" >Edit</button><button class="btn-del" onclick="confirmDelete(\'exam\',\'' + ex["Exam Name"].replace(/'/g, "\\'") + '\')" >Delete</button></td></tr>';
+      });
+    }
+
+    function filterExamTable() {
+      var term = document.getElementById("examSearch").value.toLowerCase();
+      var filtered = allExams.filter(function (e) { return (e["Exam Name"] + e["Category"] + e["Conducting Body"]).toLowerCase().includes(term); });
+      renderExamTable(filtered);
+    }
+
+    // LOAD USERS
+    async function loadUsers() {
+      try {
+        var res = await fetch(API + "/admin/users");
+        var data = await res.json();
+        allUsers = data.users || [];
+        renderUserTable(allUsers);
+      } catch (e) { showToast("Could not load users", "err"); }
+    }
+
+    function renderUserTable(list) {
+      var tbody = document.getElementById("usersTbl");
+      tbody.innerHTML = "";
+      if (!list.length) { tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No users found.</td></tr>'; return; }
+      list.forEach(function (u, i) {
+        var isBlocked = u.blocked === true;
+        var statusBadge = isBlocked
+          ? '<span class="badge-blocked"><i class="bi bi-slash-circle-fill"></i> Blocked</span>'
+          : '<span class="badge-active-user"><i class="bi bi-check-circle-fill"></i> Active</span>';
+        var blockBtn = isBlocked
+          ? '<button class="btn-unblock" onclick="toggleBlock(\'' + u.email + '\', false)"><i class="bi bi-unlock-fill"></i> Unblock</button>'
+          : '<button class="btn-block" onclick="toggleBlock(\'' + u.email + '\', true)"><i class="bi bi-slash-circle"></i> Block</button>';
+        tbody.innerHTML += '<tr><td class="td-sm">' + (i + 1) + '</td><td class="td-name">' + u.name + '</td><td class="td-sm">' + u.email + '</td><td class="td-sm">' + (u.phone || "—") + '</td><td>' + statusBadge + '</td><td style="white-space:nowrap">' + blockBtn + '</td></tr>';
+      });
+    }
+
+    function filterUserTable() {
+      var term = document.getElementById("userSearch").value.toLowerCase();
+      var filtered = allUsers.filter(function (u) { return (u.name + u.email).toLowerCase().includes(term); });
+      renderUserTable(filtered);
+    }
+
+    async function toggleBlock(email, doBlock) {
+      var action = doBlock ? "block" : "unblock";
+      var label  = doBlock ? "blocked" : "unblocked";
+      try {
+        var res = await fetch(API + "/admin/users/" + action + "/" + encodeURIComponent(email), { method: "PUT" });
+        if (res.ok) {
+          showToast("User " + email + " has been " + label, doBlock ? "warn" : "ok");
+          loadUsers();
+        } else {
+          var d = await res.json();
+          showToast(d.detail || "Action failed", "err");
+        }
+      } catch (e) { showToast("Server error", "err"); }
+    }
+
+    // EXAM MODAL
+    function openAddExam() {
+      editingExam = null;
+      document.getElementById("mTitle").textContent = "Add New Exam";
+      clearExamForm();
+      document.getElementById("examMov").classList.add("on");
+    }
+
+    function openEditExam(name) {
+      var ex = allExams.find(function (e) { return e["Exam Name"] === name; });
+      if (!ex) return;
+      editingExam = name;
+      document.getElementById("mTitle").textContent = "Edit Exam";
+      document.getElementById("fName").value = ex["Exam Name"] || "";
+      document.getElementById("fFull").value = ex["Full Form"] || "";
+      document.getElementById("fBody").value = ex["Conducting Body"] || "";
+      document.getElementById("fCat").value = ex["Category"] || "";
+      document.getElementById("fStatus").value = ex["Status"] || "Currently Active";
+      document.getElementById("fMode").value = ex["Mode"] || "Online (CBT)";
+      document.getElementById("fFreq").value = ex["Frequency"] || "";
+      document.getElementById("fUrl").value = ex["Official URL"] || "";
+      document.getElementById("fElig").value = ex["Eligibility"] || "";
+      document.getElementById("fPosts").value = ex["Posts / Services"] || "";
+      document.getElementById("fStages").value = ex["Stages"] || "";
+      document.getElementById("fDate").value = ex["Exam Date(s)"] || "";
+      document.getElementById("fAppDate").value = ex["Application / Last Date"] || "";
+      document.getElementById("fResult").value = ex["Result / Expiry Date"] || "";
+      document.getElementById("examMov").classList.add("on");
+    }
+
+    function clearExamForm() {
+      ["fName", "fFull", "fBody", "fFreq", "fUrl", "fElig", "fPosts", "fStages", "fDate", "fAppDate", "fResult"].forEach(function (id) { document.getElementById(id).value = ""; });
+      document.getElementById("fCat").value = "";
+      document.getElementById("fStatus").value = "Currently Active";
+      document.getElementById("fMode").value = "Online (CBT)";
+    }
+
+    function closeExamModal() { document.getElementById("examMov").classList.remove("on"); }
+
+    async function saveExam() {
+      var name = document.getElementById("fName").value.trim();
+      var full = document.getElementById("fFull").value.trim();
+      if (!name || !full) { showToast("Exam Name and Full Form are required", "err"); return; }
+      var examData = {
+        "Exam Name": name,
+        "Full Form": full,
+        "Conducting Body": document.getElementById("fBody").value.trim(),
+        "Category": document.getElementById("fCat").value,
+        "Status": document.getElementById("fStatus").value,
+        "Mode": document.getElementById("fMode").value,
+        "Frequency": document.getElementById("fFreq").value.trim(),
+        "Official URL": document.getElementById("fUrl").value.trim(),
+        "Eligibility": document.getElementById("fElig").value.trim(),
+        "Posts / Services": document.getElementById("fPosts").value.trim(),
+        "Stages": document.getElementById("fStages").value.trim(),
+        "Exam Date(s)": document.getElementById("fDate").value.trim(),
+        "Application / Last Date": document.getElementById("fAppDate").value.trim(),
+        "Result / Expiry Date": document.getElementById("fResult").value.trim()
+      };
+      try {
+        var url = editingExam ? API + "/admin/exams/update/" + encodeURIComponent(editingExam) : API + "/admin/exams/add";
+        var method = editingExam ? "PUT" : "POST";
+        var res = await fetch(url, { method: method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(examData) });
+        if (res.ok) {
+          showToast(editingExam ? "Exam updated successfully" : "Exam added successfully");
+          closeExamModal();
+          loadExams();
+        } else { showToast("Failed to save exam", "err"); }
+      } catch (e) { showToast("Server error", "err"); }
+    }
+
+    // CONFIRM DELETE
+    function confirmDelete(type, id) {
+      document.getElementById("cMsg").textContent = type === "exam"
+        ? 'Delete exam "' + id + '"? This cannot be undone.'
+        : 'Delete user "' + id + '"? This cannot be undone.';
+      confirmCb = async function () {
+        try {
+          var url = type === "exam"
+            ? API + "/admin/exams/delete/" + encodeURIComponent(id)
+            : API + "/admin/users/delete/" + encodeURIComponent(id);
+          var res = await fetch(url, { method: "DELETE" });
+          if (res.ok) {
+            showToast((type === "exam" ? "Exam" : "User") + " deleted successfully");
+            if (type === "exam") loadExams(); else loadUsers();
+          } else { showToast("Delete failed", "err"); }
+        } catch (e) { showToast("Server error", "err"); }
+        closeConfirm();
+      };
+      document.getElementById("cmov").classList.add("on");
+    }
+
+    document.getElementById("btnConfirm").addEventListener("click", function () { if (confirmCb) confirmCb(); });
+    function closeConfirm() { document.getElementById("cmov").classList.remove("on"); confirmCb = null; }
+
+    // LOGOUT
+    function adminLogout() {
+      localStorage.removeItem("adminLoggedIn");
+      localStorage.removeItem("adminEmail");
+      window.location.href = "admin_login.html";
+    }
+
+    // INIT
+    loadDashboard();
+  </script>
+</body>
+</html>
